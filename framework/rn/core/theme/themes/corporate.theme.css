@@ -4,6 +4,10 @@
  */
 
 html.theme-corporate {
+  --main: #ffffff;
+  --inverted: #222c3c;
+  --subtle: #e3e8ee;
+
   --primary-50: #f0f7ff;
   --primary-100: #e0effe;
   --primary-200: #b9ddfe;
@@ -88,4 +92,18 @@ html.theme-corporate {
   --error-900: #7f1d1d;
   --error-950: #450a0a;
   --error-foreground: #ffffff;
+}
+
+html.theme-corporate.theme-dark {
+  --main: #222c3c;
+  --inverted: #f0f3f7;
+  --subtle: #3c4859;
+}
+
+@media (prefers-color-scheme: dark) {
+  html.theme-corporate:not(.theme-light) {
+    --main: #222c3c;
+    --inverted: #f0f3f7;
+    --subtle: #3c4859;
+  }
 }

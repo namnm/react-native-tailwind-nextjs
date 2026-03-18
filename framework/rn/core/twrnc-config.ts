@@ -30,6 +30,8 @@ const steps = [
   950,
   'foreground',
 ] as const
+const semanticColors = ['main', 'inverted', 'subtle'] as const
+
 const twrncThemeColors: StrMap<StrMap<string>> = {}
 for (const color of colors) {
   twrncThemeColors[color] = {}
@@ -38,9 +40,16 @@ for (const color of colors) {
   }
   twrncThemeColors[color].DEFAULT = `var(--${color}-500)`
 }
+for (const color of semanticColors) {
+  twrncThemeColors[color] = {
+    DEFAULT: `var(--${color})`,
+  }
+}
 
 export type ThemeVariables = {
   [k in `--${(typeof colors)[number]}-${(typeof steps)[number]}`]: string
+} & {
+  [k in `--${(typeof semanticColors)[number]}`]: string
 }
 
 export const twrncConfig: TwConfig = {
@@ -67,6 +76,15 @@ export const validateThemeVariables = (variables: StrMap<string>) => {
       if (typeof variables[k] !== 'string') {
         invalidOrMissing.push(k)
       }
+    }
+  }
+
+  for (const color of semanticColors) {
+    const k = `--${color}`
+    valid[k] = true
+
+    if (typeof variables[k] !== 'string') {
+      invalidOrMissing.push(k)
     }
   }
 

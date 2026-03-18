@@ -4,6 +4,10 @@
  */
 
 html.theme-ruby {
+  --main: #ffffff;
+  --inverted: #2d2427;
+  --subtle: #ebe6e8;
+
   --primary-50: #fef2f2;
   --primary-100: #fee2e2;
   --primary-200: #fecaca;
@@ -88,4 +92,18 @@ html.theme-ruby {
   --error-900: #7f1d1d;
   --error-950: #450a0a;
   --error-foreground: #ffffff;
+}
+
+html.theme-ruby.theme-dark {
+  --main: #2d2427;
+  --inverted: #f5f2f3;
+  --subtle: #453b3f;
+}
+
+@media (prefers-color-scheme: dark) {
+  html.theme-ruby:not(.theme-light) {
+    --main: #2d2427;
+    --inverted: #f5f2f3;
+    --subtle: #453b3f;
+  }
 }

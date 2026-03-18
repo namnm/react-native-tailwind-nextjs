@@ -4,6 +4,10 @@
  */
 
 html.theme-phoenix {
+  --main: #ffffff;
+  --inverted: #2d2823;
+  --subtle: #ebe8e5;
+
   --primary-50: #fff7ed;
   --primary-100: #ffedd5;
   --primary-200: #fed7aa;
@@ -88,4 +92,18 @@ html.theme-phoenix {
   --error-900: #7f1d1d;
   --error-950: #450a0a;
   --error-foreground: #ffffff;
+}
+
+html.theme-phoenix.theme-dark {
+  --main: #2d2823;
+  --inverted: #f5f3f2;
+  --subtle: #453e3a;
+}
+
+@media (prefers-color-scheme: dark) {
+  html.theme-phoenix:not(.theme-light) {
+    --main: #2d2823;
+    --inverted: #f5f3f2;
+    --subtle: #453e3a;
+  }
 }

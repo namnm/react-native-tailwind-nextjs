@@ -3,6 +3,14 @@
  * See LICENSE file in the project root for full license information.
  */
 
+'use client'
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/rn/core/components/accordion'
 import { Input } from '@/rn/core/components/base/input'
 import { ScrollView } from '@/rn/core/components/base/scroll-view'
 import { H1, Span } from '@/rn/core/components/base/text'
@@ -46,6 +54,47 @@ export const HomePage = async () => {
             </Button>
           </View>
         </View>
+
+        <Accordion type='single' defaultValue='item-1'>
+          <AccordionItem value='item-1'>
+            <AccordionTrigger>
+              <Span className='font-medium'>What is this boilerplate?</Span>
+            </AccordionTrigger>
+            <AccordionContent>
+              <Span>
+                React Native with Tailwind CSS, compatible with Next.js App
+                Router SSR streaming.
+              </Span>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value='item-2'>
+            <AccordionTrigger>
+              <Span className='font-medium'>How does className work?</Span>
+            </AccordionTrigger>
+            <AccordionContent>
+              <Span>
+                Class names are transpiled to style objects at build time via a
+                babel plugin.
+              </Span>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value='item-3'>
+            <AccordionTrigger>
+              {open => (
+                <Span className='font-medium'>
+                  {open ? 'Hide' : 'Show'} render function example
+                </Span>
+              )}
+            </AccordionTrigger>
+            <AccordionContent>
+              <Span>
+                AccordionTrigger children can be a render function receiving the
+                open state.
+              </Span>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+
         <DemoGrid />
         {demoRefs}
         <DemoRuntime />
