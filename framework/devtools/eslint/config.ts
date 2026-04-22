@@ -9,7 +9,6 @@ import { defineConfig } from '@eslint/config-helpers'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import * as tsParser from '@typescript-eslint/parser'
 import * as importPlugin from 'eslint-plugin-import'
-import noRelativeImportPathsPlugin from 'eslint-plugin-no-relative-import-paths'
 import preferArrowPlugin from 'eslint-plugin-prefer-arrow'
 import reactPlugin from 'eslint-plugin-react'
 import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort'
@@ -111,7 +110,6 @@ export const config = ({
       react: reactPlugin,
       import: importPlugin,
       'simple-import-sort': simpleImportSortPlugin,
-      'no-relative-import-paths': noRelativeImportPathsPlugin,
       'prefer-arrow': preferArrowPlugin,
       unicorn: unicornPlugin,
       custom: customPlugin,
@@ -197,7 +195,7 @@ export const config = ({
 
       'custom/enforce-use-client': [warn, enforceUseClient],
       'custom/err-name': warn,
-      'custom/export-validation': warn,
+      'custom/no-missing-export': warn,
       'custom/no-access-property': off,
       'custom/no-import-default': [warn, ['react']],
       'custom/no-import-outside': off,
@@ -233,7 +231,7 @@ export const config = ({
     ...base,
     files: base.files?.map(f => `${d.rootDir}/${f}`),
     rules: {
-      'no-relative-import-paths/no-relative-import-paths': [
+      'custom/no-relative-import-paths': [
         warn,
         { allowSameFolder: false, ...d },
       ],
@@ -251,7 +249,8 @@ export const config = ({
     ...base,
     ignores: ignoreDefaultExport,
     rules: {
-      'import/no-default-export': warn,
+      // TODO: not working in eslint 10, wait for package update
+      'import/no-default-export': off,
     },
   }
 

@@ -8,9 +8,9 @@
   border-radius: 9999px;
   opacity: 1;
   pointer-events: none;
+  will-change: transform, opacity;
   transform: scale(0);
   animation: ripple 1000ms ease-out forwards;
-  will-change: transform, opacity;
 }
 
 @keyframes ripple {

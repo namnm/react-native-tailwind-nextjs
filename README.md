@@ -21,7 +21,6 @@ const _style = {
 }
 const MyComponent = () => <View style={_style} />
 
-//
 // support array in jsx
 const MyComponent = ({ withTransition, className, ...props }: Props) => (
   <View
@@ -40,7 +39,6 @@ const MyComponent = ({ withTransition, className, ...props }: Props) => (
   <View {...props} style={[_style1, withTransition && _style2, className]} />
 )
 
-//
 // transpile class names directly to store as a variable
 // on web they will be kept as string
 const style = tw`flex flex-col transition`
@@ -49,7 +47,6 @@ const style = {
   // ..
 }
 
-//
 // support cva
 const button = cva({
   className: '..',
@@ -102,7 +99,6 @@ const MyComponent = (variant: Props) => {
   )
 }
 
-//
 // support clsx
 const composed = clsx(
   'flex flex-col',
@@ -110,13 +106,11 @@ const composed = clsx(
   className,
 )
 
-//
 // support runtime conversion from class names to styles, also work on web
 // this is not recommended, but can be useful in some cases
 // NOTE: these class names are not captured by the babel plugin and postcss-rename
 const style = runtimeStyle('flex flex-col')
 
-//
 // support runtime conversion from class names to styles in jsx
 // this is not recommended, and will be warned during development mode
 // NOTE: these class names are not captured by the babel plugin and postcss-rename
@@ -124,7 +118,7 @@ const classNameStringFromSomeWhere = 'flex flex-col'
 const MyComponent = () => <View className={classNameStringFromSomeWhere} />
 ```
 
-- All styles are transpiled from string to object at build time using a babel plugin and twrnc under the hood, this will improve performance compared to general twrnc runtime.
+- All styles are transpiled from string to object at build time using a babel plugin and twrnc under the hood, this will improve performance compared to general twrnc runtime. All class names valid in twrnc should be valid here as well, extra features will be described below.
 - Selectors are handled using hook and have no problem such as twrnc memoBuster. The hook is only needed in react native, thus it will not introduce client component in web.
 
 - `cva` signature is similar to [cva](https://cva.style/docs/getting-started/variants) with some differences and extras. To follow with real life standards and avoid confusion, we will redefine the terms as follows:
@@ -225,7 +219,7 @@ To bypass rsc metadata validation as it happens before the babel process, we nee
 
 The transpiled code could be cached. If we add or remove a `.client` file, it will not be resolved correctly as the previous transpiled import path is cached, we need to remove the cache folder `.next` and restart the development server.
 
-To make sure all variants should export the same set of functionalities, we also have a custom eslint rule to check if there is mismatch export between variants and default: `custom/export-validation`. This rule also allows different exports in some edge cases, name the variable with cresponding variant suffix to bypass, for example `somethingNative` will not be reported in the `.native` variant.
+To make sure all variants should export the same set of functionalities, we also have a custom eslint rule to check if there is mismatch export between variants and default: `custom/no-missing-export`. This rule also allows different exports in some edge cases, name the variable with cresponding variant suffix to bypass, for example `somethingNative` will not be reported in the `.native` variant.
 
 This is currently not working with `.web.client` extension, and we intentionally support only `.client`. As the server implementation is broader with async components, we should prioritize server implementation first as the default if there is difference, then client, and native last.
 

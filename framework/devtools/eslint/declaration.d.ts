@@ -24,13 +24,6 @@ declare module 'eslint-plugin-import' {
   export = m
 }
 
-declare module 'eslint-plugin-no-relative-import-paths' {
-  import type { ESLint } from 'eslint'
-
-  const m: ESLint.Plugin
-  export = m
-}
-
 declare module 'eslint-plugin-prefer-arrow' {
   import type { ESLint } from 'eslint'
 

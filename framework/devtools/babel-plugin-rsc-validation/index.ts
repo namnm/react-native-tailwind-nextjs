@@ -12,9 +12,8 @@ import {
 import { shouldTranspile } from '@/devtools/babel-config/should-transpile'
 
 // Modules that are only allowed in React Server Components (RSC) / server context.
-// Supports wildcard (*) patterns, e.g. 'next/*', 'server-only*'.
 // Imports matching any entry will throw a build-time error in client bundles.
-const SERVER_ONLY_MODULES: string[] = ['next/*', 'next-*/*', 'server-only*']
+const SERVER_ONLY_MODULES: string[] = ['next*/headers', 'server-*']
 
 const wildcardToRegex = (pattern: string) => {
   pattern = pattern.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*')

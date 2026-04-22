@@ -8,6 +8,6 @@
     "pnpm": ">=10"
   },
   "devDependencies": {
-    "enhanced-resolve": "5.18.4"
+    "enhanced-resolve": "5.20.1"
   }
 }

@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "fast-glob": "3.3.3",
-    "globby": "16.1.0"
+    "globby": "16.2.0"
   }
 }

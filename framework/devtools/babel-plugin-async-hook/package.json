@@ -8,8 +8,8 @@
     "pnpm": ">=10"
   },
   "dependencies": {
-    "@babel/core": "7.28.6",
-    "zod": "4.3.5"
+    "@babel/core": "7.29.0",
+    "zod": "4.3.6"
   },
   "devDependencies": {
     "@types/babel__core": "7.20.5"

@@ -10,7 +10,6 @@ import {
   transformCssVariables,
 } from '@/devtools/webpack-css-variables/transform-css-variables'
 
-// eslint-disable-next-line import/no-default-export
 export default function cssThemeLoader(
   this: LoaderContext<object>,
   src: string,

@@ -14,7 +14,7 @@ const variants = ['native', 'ios', 'android', 'client'] as const
 type Variant = (typeof variants)[number]
 const exts = ['ts', 'tsx'] as const
 
-export const exportValidation: TSESLint.RuleModule<
+export const noMissingExport: TSESLint.RuleModule<
   'exportMissing' | 'exportExtra',
   []
 > = {
