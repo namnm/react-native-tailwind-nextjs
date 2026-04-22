@@ -34,11 +34,11 @@ const minify = (v: string) =>
     .map(k => twToMinified(k) || k)
     .join(' ')
 
-export const twMerge = process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
+export const twMergeWeb = process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
   ? twMergeMinified
   : twMergeOriginal
 
 // export for runtime style on web
-export const twUnminify = process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
+export const twUnminifyWeb = process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
   ? unminify
   : undefined

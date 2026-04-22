@@ -18,14 +18,16 @@ const Context = createContext<ContextState | undefined>(undefined)
 
 // this promise should be await before using the below provider
 let initialTheme: string | undefined = undefined
-export const themePromise = AsyncStorage.getItem(themeCookieKey).then(v => {
-  initialTheme = toValidTheme(v)
-})
+export const themePromiseNative = AsyncStorage.getItem(themeCookieKey).then(
+  v => {
+    initialTheme = toValidTheme(v)
+  },
+)
 
 export const useTheme = () => useSafeContext(Context).v
 export const useSetTheme = () => useSafeContext(Context).set
 
-export const ThemeProvider = ({ children }: PropsWithChildren) => {
+export const ThemeProviderNative = ({ children }: PropsWithChildren) => {
   const [theme, setTheme] = useState(initialTheme)
 
   const contextState: ContextState = {

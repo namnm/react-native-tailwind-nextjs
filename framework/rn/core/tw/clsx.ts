@@ -4,7 +4,7 @@
  */
 
 import type { ClassName } from '@/rn/core/tw/class-name'
-import { twMerge } from '@/rn/core/tw/lib/class-name-minified'
+import { twMergeWeb } from '@/rn/core/tw/lib/class-name-minified'
 
 // on web it will return string, on native it is just a placeholder to transpile without any additional logic
 export const clsx = (...classNames: ClassName[]): ClassName => {
@@ -18,5 +18,5 @@ export const clsx = (...classNames: ClassName[]): ClassName => {
       }
     })
   }
-  return twMerge(strings.join(' '))
+  return twMergeWeb(strings.join(' '))
 }

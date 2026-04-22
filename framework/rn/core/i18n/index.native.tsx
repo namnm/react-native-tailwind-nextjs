@@ -30,7 +30,7 @@ export const useCurrentLangUntyped = () => {
 export const useTranslationUntyped = (namespace: string) =>
   useTranslation(namespace).t
 
-export const getI18nPromise = () =>
+export const getI18nPromiseNative = () =>
   Promise.all([
     AsyncStorage.getItem(i18nCookieKey).then(v => {
       const lang = getLangUntyped(v as any)
@@ -39,6 +39,6 @@ export const getI18nPromise = () =>
     getI18nPromiseShared(),
   ])
 
-export const I18nProvider = ({ children }: PropsWithChildren) => (
+export const I18nProviderNative = ({ children }: PropsWithChildren) => (
   <I18nextProvider i18n={i18next}>{children}</I18nextProvider>
 )

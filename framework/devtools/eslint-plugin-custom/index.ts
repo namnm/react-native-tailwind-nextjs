@@ -7,6 +7,7 @@ import type { ESLint } from 'eslint'
 
 import { enforceUseClient } from '@/devtools/eslint-plugin-custom/enforce-use-client'
 import { errName } from '@/devtools/eslint-plugin-custom/err-name'
+import { exportValidation } from '@/devtools/eslint-plugin-custom/export-validation'
 import { noAccessProperty } from '@/devtools/eslint-plugin-custom/no-access-property'
 import { noImportDefault } from '@/devtools/eslint-plugin-custom/no-import-default'
 import { noImportOutside } from '@/devtools/eslint-plugin-custom/no-import-outside'
@@ -23,6 +24,7 @@ export const customPlugin = {
   rules: {
     'enforce-use-client': enforceUseClient,
     'err-name': errName,
+    'export-validation': exportValidation,
     'no-access-property': noAccessProperty,
     'no-import-default': noImportDefault,
     'no-import-outside': noImportOutside,

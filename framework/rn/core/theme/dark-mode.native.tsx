@@ -28,16 +28,16 @@ const Context = createContext<ContextState | undefined>(undefined)
 
 // this promise should be await before using the below provider
 let initialDarkMode: boolean | undefined = undefined
-export const darkModePromise = AsyncStorage.getItem(darkModeCookieKey).then(
-  v => {
-    initialDarkMode = darkModeToBolean(v)
-  },
-)
+export const darkModePromiseNative = AsyncStorage.getItem(
+  darkModeCookieKey,
+).then(v => {
+  initialDarkMode = darkModeToBolean(v)
+})
 
 export const useDarkModeUser = () => useSafeContext(Context).v
 export const useSetDarkMode = () => useSafeContext(Context).set
 
-export const DarkModeProvider = ({ children }: PropsWithChildren) => {
+export const DarkModeProviderNative = ({ children }: PropsWithChildren) => {
   const [darkMode, setDarkMode] = useState(initialDarkMode)
 
   const contextState: ContextState = {
@@ -60,7 +60,7 @@ export const DarkModeProvider = ({ children }: PropsWithChildren) => {
   return <Context value={contextState}>{children}</Context>
 }
 
-export const useDarkModeState = () => {
+export const useDarkModeStateNative = () => {
   const user = useDarkModeUser()
   const os = useColorScheme()
   return toDarkModeState(darkModeCompose(user, os))

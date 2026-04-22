@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { CommonProps } from '@/rn/core/components/base/lib/common-props'
 import { useResponsiveState } from '@/rn/core/responsive'
 import { getThemeVariables } from '@/rn/core/theme/config'
-import { useDarkModeState } from '@/rn/core/theme/dark-mode.native'
+import { useDarkModeStateNative } from '@/rn/core/theme/dark-mode.native'
 import { useTheme } from '@/rn/core/theme/index.native'
 import type {
   ClassName,
@@ -280,7 +280,7 @@ const withResponsive = (Inner: FC<InnerProps>) => (props: InnerProps) => {
 }
 
 const withDarkMode = (Inner: FC<InnerProps>) => (props: InnerProps) => {
-  const darkModeState = useDarkModeState()
+  const darkModeState = useDarkModeStateNative()
   return <Inner {...props} darkModeState={darkModeState} />
 }
 

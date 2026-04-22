@@ -217,17 +217,17 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
 
 ### Client extension
 
-Similar to react native metro variant `.native` `.ios` `.android` extension alias resolve strategy, we also support `.client` extension in the client bundle, using a custom babel plugin to transpile the import path.
+Similar to react native metro variant `.native` `.ios` `.android` extension alias resolve strategy, we also support `.client` extension in the client bundle, using a custom babel and webpack plugin to transpile the import path: `babel-plugin-client-extension`, `webpack-resolve-client-extension`
 
-This is currently working with webpack only, as turbopack use esm module and collect the rsc metadata once for both bundles. We can revisit the turbopack case in the future to explore if we can support this feature, using alias or something..
+This is currently working with webpack only, as turbopack use esm module and collect the rsc metadata single unified graph for all environments. We can support turbopack using resolveAlias by glob all .client extension files in nextjs config, but it requires to restart nextjs everytime adding/removing any .client file.
 
-To bypass rsc metadata validation as it happens before the babel process, we need to alias next modules such as `next/headers`.. We should use another babel plugin to validate these cases. TODO:
+To bypass rsc metadata validation as it happens before the babel process, we need to alias next modules such as `next/..` to be `next-unchecked/..`. We should use another babel plugin to validate these cases: `babel-plugin-rsc-validation`
 
 The transpiled code could be cached. If we add or remove a `.client` file, it will not be resolved correctly as the previous transpiled import path is cached, we need to remove the cache folder `.next` and restart the development server.
 
-To make sure all variants should export the same set of functionalities, we also have a custom eslint rule to check if there is mismatch export between variants and default. TODO:
+To make sure all variants should export the same set of functionalities, we also have a custom eslint rule to check if there is mismatch export between variants and default: `custom/export-validation`. This rule also allows different exports in some edge cases, name the variable with cresponding variant suffix to bypass, for example `somethingNative` will not be reported in the `.native` variant.
 
-This is currently not working with `.web` extension, and we intentionally support only `.client`. As the server implementation is broader with async components, we should prioritize server implementation first as the default if there is difference, then client, and native last.
+This is currently not working with `.web.client` extension, and we intentionally support only `.client`. As the server implementation is broader with async components, we should prioritize server implementation first as the default if there is difference, then client, and native last.
 
 ### Async components
 
@@ -259,10 +259,6 @@ There should be no global Context as it marks the whole children as client bundl
 - In client bundle we will try to have the same set of exports using `next/navigation`, singleton and `useSyncExternalStore`..
 - In native bundle we can use Context and add the provider at the top native entry point.
 
-### Enhancer
-
-TODO:
-
 ### I18n
 
 I18n is already set up and configured to work on all variants: server, client, native.
@@ -277,11 +273,11 @@ Navigation is already set up and configured to work on all variants: server, cli
 
 ### Image
 
-TODO:
+Image component is aliased using `react-native-fast-image` in native and a plain html `img` tag in nextjs. `resizeMode` should be supported using tw class names such as `object-*`. Other nextjs image features such as auto generated ratio, optimization.. should be done on the backend api level and supply here through tw class names, src set..
 
 ### HTML semantic & accessibility
 
-TODO:
+Beside the official semantic props such as `accessibilityRole`, `aria-*`.. we also have `rnwTag` to customize the html tag for the base components.
 
 ### Patch react-native-web
 

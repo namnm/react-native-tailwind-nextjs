@@ -114,7 +114,11 @@ describe('classNameToNative', () => {
       selector: 'group',
       style: { '': true },
     }))
-  it('peer marker', () => e('peer', { selector: 'peer', style: { '': true } }))
+  it('peer marker', () =>
+    e('peer', {
+      selector: 'peer',
+      style: { '': true },
+    }))
   it('peer-focus: selector', () =>
     e('peer-focus:opacity-50', {
       selector: 'peer-focus',

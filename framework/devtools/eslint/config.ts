@@ -197,6 +197,7 @@ export const config = ({
 
       'custom/enforce-use-client': [warn, enforceUseClient],
       'custom/err-name': warn,
+      'custom/export-validation': warn,
       'custom/no-access-property': off,
       'custom/no-import-default': [warn, ['react']],
       'custom/no-import-outside': off,

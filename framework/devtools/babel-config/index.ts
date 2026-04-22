@@ -5,6 +5,7 @@
 
 import { asyncHookPlugin } from '@/devtools/babel-plugin-async-hook'
 import { clientExtensionPlugin } from '@/devtools/babel-plugin-client-extension'
+import { rscValidationPlugin } from '@/devtools/babel-plugin-rsc-validation'
 import { twPlugin } from '@/devtools/babel-plugin-tw'
 import { getAlias } from '@/devtools/ts/get-alias'
 import { path } from '@/nodejs/path'
@@ -34,6 +35,7 @@ export const config = ({
 
     return {
       plugins: [
+        rscValidationPlugin,
         [clientExtensionPlugin, clientExtensionOptions],
         asyncHookPlugin,
         [twPlugin, twOptions],
@@ -61,6 +63,7 @@ export const config = ({
 
   return {
     plugins: [
+      rscValidationPlugin,
       [asyncHookPlugin, asyncHookOptions],
       [twPlugin, twOptions],
       [require.resolve('babel-plugin-module-resolver'), moduleResolverOptions],

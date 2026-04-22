@@ -10,7 +10,7 @@ import { get } from '@/shared/lodash'
 export const getIsServer = (
   pluginPass: PluginPass,
   callerIsServer: boolean | undefined,
-) => {
+): boolean | undefined => {
   const v: boolean | undefined = get(pluginPass.opts, 'isServer')
   if (typeof v === 'boolean') {
     return v
@@ -18,7 +18,7 @@ export const getIsServer = (
   return callerIsServer
 }
 
-export const getCallerIsServer = (api: ConfigAPI) => {
+export const getCallerIsServer = (api: ConfigAPI): boolean | undefined => {
   let v: boolean | undefined = undefined
   // could be empty in traverse only mode without api
   if (typeof api?.caller !== 'function') {

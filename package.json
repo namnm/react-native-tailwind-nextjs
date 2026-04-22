@@ -5,7 +5,7 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "lint": "pnpm -s normalize && pnpm -s eslint && pnpm -s stylelint && pnpm -s prettier",
+    "lint": "pnpm normalize && pnpm eslint && pnpm stylelint && pnpm prettier",
     "normalize": "node ./devtools normalize",
     "eslint": "node ./devtools eslint",
     "stylelint": "node ./devtools stylelint",

@@ -10,7 +10,7 @@ import type {
   StyleSingle,
 } from '@/rn/core/tw/class-name'
 import { getTwrnc } from '@/rn/core/tw/config'
-import { twUnminify } from '@/rn/core/tw/lib/class-name-minified'
+import { twUnminifyWeb } from '@/rn/core/tw/lib/class-name-minified'
 import { classNameToNative } from '@/rn/core/tw/lib/class-name-to-native'
 import { platform } from '@/rn/core/utils/platform'
 import type { Nullish, StrMap } from '@/shared/ts-utils'
@@ -65,7 +65,7 @@ const classNameToStylesRecursive = ({
     options.className = classNameToNative({
       platform,
       twrnc: getTwrnc(),
-      className: twUnminify ? twUnminify(className) : className,
+      className: twUnminifyWeb ? twUnminifyWeb(className) : className,
     })
     classNameToStylesRecursive(options)
     return
