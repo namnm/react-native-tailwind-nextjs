@@ -5,7 +5,8 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "lint": "pnpm normalize && pnpm eslint && pnpm stylelint && pnpm prettier",
+    "lint": "pnpm doctoc && pnpm normalize && pnpm eslint && pnpm stylelint && pnpm prettier",
+    "doctoc": "doctoc --loglevel warn --github README.md",
     "normalize": "node ./devtools normalize",
     "eslint": "node ./devtools eslint",
     "stylelint": "node ./devtools stylelint",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@types/node": "25.6.0",
+    "doctoc": "2.4.1",
     "typescript": "6.0.3"
   },
   "pnpm": {

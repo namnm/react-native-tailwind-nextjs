@@ -14,12 +14,18 @@ import { useEffect, useState } from 'react'
 import { AppRegistry } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { getI18nPromise, I18nProvider } from '@/rn/core/i18n/index.native'
 import {
-  darkModePromise,
-  DarkModeProvider,
+  getI18nPromiseNative,
+  I18nProviderNative,
+} from '@/rn/core/i18n/index.native'
+import {
+  darkModePromiseNative,
+  DarkModeProviderNative,
 } from '@/rn/core/theme/dark-mode.native'
-import { themePromise, ThemeProvider } from '@/rn/core/theme/index.native'
+import {
+  themePromiseNative,
+  ThemeProviderNative,
+} from '@/rn/core/theme/index.native'
 import { TwPeerProvider } from '@/rn/core/tw/marker'
 import { tw } from '@/rn/core/tw/tw'
 import { composeProviders } from '@/rn/core/utils/compose-providers'
@@ -41,11 +47,13 @@ const Navigation = createStaticNavigation(RootStack)
 const LoadingProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState(true)
   useEffect(() => {
-    Promise.all([getI18nPromise(), themePromise, darkModePromise]).finally(
-      () => {
-        setLoading(false)
-      },
-    )
+    Promise.all([
+      getI18nPromiseNative(),
+      themePromiseNative,
+      darkModePromiseNative,
+    ]).finally(() => {
+      setLoading(false)
+    })
   }, [])
 
   if (loading) {
@@ -59,9 +67,9 @@ const LoadingProvider = ({ children }: PropsWithChildren) => {
 export const App = composeProviders(
   LoadingProvider,
   SafeAreaProvider,
-  I18nProvider,
-  ThemeProvider,
-  DarkModeProvider,
+  I18nProviderNative,
+  ThemeProviderNative,
+  DarkModeProviderNative,
   TwPeerProvider,
   // must be last
   Navigation,
