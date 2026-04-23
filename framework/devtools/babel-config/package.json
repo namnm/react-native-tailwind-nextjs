@@ -10,7 +10,7 @@
   "dependencies": {
     "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
-    "@react-native/babel-preset": "0.83.1",
+    "@react-native/babel-preset": "0.85.2",
     "babel-plugin-module-resolver": "5.0.3"
   },
   "peerDependencies": {

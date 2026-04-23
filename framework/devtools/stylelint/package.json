@@ -10,7 +10,7 @@
   "dependencies": {
     "postcss": "8.5.10",
     "postcss-scss": "4.0.9",
-    "stylelint": "17.8.0",
+    "stylelint": "17.9.0",
     "stylelint-config-hudochenkov": "13.0.2",
     "stylelint-order": "8.1.1"
   }

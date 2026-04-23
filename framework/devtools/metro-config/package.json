@@ -8,8 +8,8 @@
     "pnpm": ">=10"
   },
   "dependencies": {
-    "@react-native/metro-babel-transformer": "0.83.1",
-    "@react-native/metro-config": "0.83.1",
+    "@react-native/metro-babel-transformer": "0.85.2",
+    "@react-native/metro-config": "0.85.2",
     "@rnx-kit/metro-config": "2.2.4",
     "@rnx-kit/metro-resolver-symlinks": "0.2.11",
     "react-native-svg-transformer": "1.5.3"
