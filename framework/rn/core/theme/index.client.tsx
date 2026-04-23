@@ -19,10 +19,13 @@ import {
 
 const emitter = new EventEmitter()
 const cookieTheme = BrowserCookies.get(themeCookieKey)
-let initialTheme = toValidTheme(cookieTheme)
+
+// toValidTheme is only correct after initTheme is called
+// so we set it undefined here and let useTheme handle it after initTheme is called
+let initialTheme: string | undefined = undefined
 
 export const useTheme = () => {
-  const [theme, setTheme] = useState(initialTheme)
+  const [theme, setTheme] = useState(initialTheme || toValidTheme(cookieTheme))
 
   useEffect(() => {
     emitter.on('change', setTheme)

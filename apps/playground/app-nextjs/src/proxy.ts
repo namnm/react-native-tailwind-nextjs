@@ -3,7 +3,7 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import '#/polyfill/set-i18n'
+import '#/polyfill/server'
 
 import acceptLang from 'accept-language'
 import type { NextRequest } from 'next/server'

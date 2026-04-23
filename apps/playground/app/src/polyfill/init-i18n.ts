@@ -3,9 +3,8 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { setI18nLabels, setLocales } from '@/rn/core/i18n/config'
+import { initI18n } from '@/rn/core/i18n/config'
 import { locales } from '#/i18n/config'
 import { labels } from '#/i18n/labels'
 
-setLocales(locales)
-setI18nLabels(labels)
+initI18n(locales, labels)

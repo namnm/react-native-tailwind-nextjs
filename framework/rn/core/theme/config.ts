@@ -9,6 +9,7 @@ import type { ThemeConfig } from '@/rn/core/theme/themes'
 import type { ClassNameDarkModeState } from '@/rn/core/tw/class-name'
 import { tw } from '@/rn/core/tw/tw'
 import { validateThemeVariables } from '@/rn/core/twrnc-config'
+import { initSingleton } from '@/rn/core/utils/init-singleton'
 import type { Falsish } from '@/shared/ts-utils'
 
 export const themeCookieKey = 'theme'
@@ -18,7 +19,7 @@ let themes: ThemeConfig[] = []
 let themesMap = new Map(themes.map(t => [t.name, t]))
 let defaultTheme: string | undefined = undefined
 
-export const setAvailableThemes = (
+const initThemeUnchecked = (
   availableThemes: ThemeConfig[],
   defaultValue: ThemeConfig,
 ) => {
@@ -37,12 +38,12 @@ export const setAvailableThemes = (
   }
 }
 
-export const getAvailableThemes = () => themes
+const getAvailableThemesUnchecked = () => themes
 
-export const toValidTheme = (theme: string | Falsish) =>
+const toValidThemeUnchecked = (theme: string | Falsish) =>
   theme && themesMap.has(theme) ? theme : undefined
 
-export const getThemeConfig = (theme: string | Falsish) => {
+const getThemeConfigUnchecked = (theme: string | Falsish) => {
   let v: ThemeConfig | undefined = undefined
   if (theme) {
     v = themesMap.get(theme)
@@ -52,6 +53,18 @@ export const getThemeConfig = (theme: string | Falsish) => {
   }
   return v
 }
+
+export const { initTheme, getAvailableThemes, toValidTheme, getThemeConfig } =
+  initSingleton({
+    init: {
+      initTheme: initThemeUnchecked,
+    },
+    getter: {
+      getAvailableThemes: getAvailableThemesUnchecked,
+      toValidTheme: toValidThemeUnchecked,
+      getThemeConfig: getThemeConfigUnchecked,
+    },
+  })
 
 export const getThemeClassName = (theme: string | Falsish) =>
   getThemeConfig(theme)?.className

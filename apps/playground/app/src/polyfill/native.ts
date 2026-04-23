@@ -4,6 +4,6 @@
  */
 
 import 'react-native-get-random-values'
-import '#/polyfill/set-i18n'
-import '#/polyfill/set-twrnc-config'
-import '#/polyfill/set-theme'
+import '#/polyfill/init-i18n'
+import '#/polyfill/init-twrnc-config'
+import '#/polyfill/init-theme'

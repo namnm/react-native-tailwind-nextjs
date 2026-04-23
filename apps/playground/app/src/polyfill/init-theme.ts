@@ -3,8 +3,8 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { setAvailableThemes } from '@/rn/core/theme/config'
+import { initTheme } from '@/rn/core/theme/config'
 import { builtinThemes } from '@/rn/core/theme/themes'
 import { corporateTheme } from '@/rn/core/theme/themes/corporate'
 
-setAvailableThemes(builtinThemes, corporateTheme)
+initTheme(builtinThemes, corporateTheme)
