@@ -14,7 +14,7 @@ export const stylelint = async (target: string) =>
     args: [
       ['--ignore-path', gitignorePath],
       ['--config-basedir', __dirname],
-      ['--config', await resolvePath(target, 'stylelint.config.js')],
+      ['--config', await resolvePath(repoRoot, 'stylelint.config.js')],
       ['--fix'],
       //
     ],

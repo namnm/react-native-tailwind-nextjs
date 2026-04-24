@@ -11,7 +11,7 @@ export const eslint = async (target: string) =>
   cmd({
     bin: await binRequireResolve('@/devtools/eslint'),
     args: [
-      ['--config', await resolvePath(target, 'eslint.config.js')],
+      ['--config', await resolvePath(repoRoot, 'eslint.config.js')],
       ['--fix'],
       //
     ],

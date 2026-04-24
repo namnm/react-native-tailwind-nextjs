@@ -12,7 +12,7 @@ export const prettier = async (target: string) =>
     bin: await binRequireResolve('@/devtools/prettier'),
     args: [
       ['--log-level', 'error'],
-      ['--config', await resolvePath(target, 'prettier.config.js')],
+      ['--config', await resolvePath(repoRoot, 'prettier.config.js')],
       ['--write'],
       //
     ],

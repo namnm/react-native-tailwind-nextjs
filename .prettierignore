@@ -78,6 +78,7 @@ yarn-error.log*
 .env.production.local
 **/.vscode/
 **/dist/
+**/dist-*/
 next-env.d.ts
 **/.next/
 **/.vercel/
