@@ -62,6 +62,8 @@ const validSemverRegex = /^\d/
  * spurious results.
  * ```
  *
+ * - Check for mismatch version of any package with root pnpm.overrides
+ *
  * - Check if version contain invalid character such as ^ or ~
  *
  * - Check if missing type declaration for a package. If there is `@types/...` installed somewhere,
@@ -69,11 +71,12 @@ const validSemverRegex = /^\d/
  *
  * - Check if `@types/...` is installed but no package
  *
- * - Check if a package appears multiple times
+ * - Check if a package appears multiple times in different paths
  */
 export const normalizePackageJson = async () => {
   const paths = await glob('**/package.json')
   const root = require(path.join(repoRoot, './package.json'))
+  const overrides = root.pnpm?.overrides || {}
 
   const allDependencies: StrMap<PackageData[]> = {}
 
@@ -180,6 +183,18 @@ export const normalizePackageJson = async () => {
     }
 
     for (const d of arr) {
+      const overrideVersion = overrides[d.name]
+      if (
+        overrideVersion &&
+        d.version !== '*' &&
+        overrideVersion !== d.version
+      ) {
+        log.warn(
+          `${d.name} version ${d.version} mismatch with pnpm.overrides ${overrideVersion}:`,
+          d.path,
+        )
+      }
+
       if (invalidVersionRegex.test(d.version)) {
         log.warn(
           `${d.name} version must be exact ${d.version.replace(invalidVersionRegex, '')}:`,

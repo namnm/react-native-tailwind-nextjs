@@ -6,7 +6,10 @@
 import { cookies } from 'next-unchecked/headers'
 import { cache } from 'react'
 
-import { darkModeCookieKey, darkModeToBolean } from '@/rn/core/theme/config'
+import {
+  darkModeCookieKey,
+  darkModeToBolean,
+} from '@/rn/core/theme/dark-mode-config'
 
 export const useDarkModeUser = cache(async () => {
   const c = await cookies()

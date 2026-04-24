@@ -17,7 +17,7 @@ import {
   darkModeEnabled,
   darkModeToBolean,
   lightClassName,
-} from '@/rn/core/theme/config'
+} from '@/rn/core/theme/dark-mode-config'
 
 const emitter = new EventEmitter()
 let initialDarkMode = darkModeToBolean(BrowserCookies.get(darkModeCookieKey))

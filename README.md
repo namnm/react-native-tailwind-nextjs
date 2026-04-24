@@ -482,7 +482,7 @@ The core framework lives in `framework/rn/core/i18n` with platform-specific entr
 
 - `index.tsx` — server components: async hooks that read the `x-i18n-locale` request header (set by Next.js middleware), wrapped in React `cache()` for request-level memoization
 - `index.client.tsx` — client components: sync hooks that parse the locale from the URL pathname
-- `index.native.tsx` — React Native: hooks backed by the i18next instance; exports `I18nProviderNative` (wraps the app with `I18nextProvider`) and `getI18nPromiseNative()` (initializes i18next and reads the persisted locale from AsyncStorage)
+- `index.native.tsx` — React Native: hooks backed by the i18next instance; exports `I18nProviderNative` (wraps the app with `I18nextProvider`) and `initI18nNative()` (initializes i18next and reads the persisted locale from AsyncStorage)
 
 Language switching is handled by `use-i18n-switcher-props.tsx` (web) and `use-i18n-switcher-props.native.tsx` (native). On web, switching navigates to a locale-prefixed URL that Next.js middleware intercepts to set the locale cookie. On native, it calls i18next directly and writes the new locale to AsyncStorage.
 

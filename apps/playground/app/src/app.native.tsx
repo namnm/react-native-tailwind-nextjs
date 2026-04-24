@@ -14,16 +14,13 @@ import { useEffect, useState } from 'react'
 import { AppRegistry } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
+import { I18nProviderNative, initI18nNative } from '@/rn/core/i18n/index.native'
 import {
-  getI18nPromiseNative,
-  I18nProviderNative,
-} from '@/rn/core/i18n/index.native'
-import {
-  darkModePromiseNative,
   DarkModeProviderNative,
+  initDarkModeNative,
 } from '@/rn/core/theme/dark-mode.native'
 import {
-  themePromiseNative,
+  initThemeNative,
   ThemeProviderNative,
 } from '@/rn/core/theme/index.native'
 import { TwPeerProvider } from '@/rn/core/tw/marker'
@@ -48,9 +45,9 @@ const LoadingProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     Promise.all([
-      getI18nPromiseNative(),
-      themePromiseNative,
-      darkModePromiseNative,
+      initI18nNative(),
+      initThemeNative(),
+      initDarkModeNative(),
     ]).finally(() => {
       setLoading(false)
     })

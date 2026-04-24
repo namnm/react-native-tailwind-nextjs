@@ -13,13 +13,13 @@ import '../tailwind.css'
 
 import { useCurrentLangUntyped } from '@/rn/core/i18n'
 import { useTheme } from '@/rn/core/theme'
+import { getThemeClassName } from '@/rn/core/theme/config'
+import { useDarkModeUser } from '@/rn/core/theme/dark-mode'
 import {
   darkClassName,
-  getThemeClassName,
   lightClassName,
   webClassName,
-} from '@/rn/core/theme/config'
-import { useDarkModeUser } from '@/rn/core/theme/dark-mode'
+} from '@/rn/core/theme/dark-mode-config'
 import { clsx } from '@/rn/core/tw/clsx'
 import { ClientEnhancer } from '#/polyfill/client'
 

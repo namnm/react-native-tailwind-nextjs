@@ -28,7 +28,7 @@ const toResponsiveBreakpoint = (width: number) => {
   throw new Error('Responsive breakpoint width is less than 0')
 }
 
-export const toResponsiveState = (width: number) => {
+export const toClassNameResponsiveState = (width: number) => {
   const state: ClassNameResponsiveState = {}
   const breakpoint = toResponsiveBreakpoint(width)
   for (const k of breakpoints) {

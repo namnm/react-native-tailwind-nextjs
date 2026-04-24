@@ -52,7 +52,7 @@ const initLocales = (locales: string[]) => {
 }
 
 let i18nPromise: Promise<unknown> = Promise.resolve()
-export const getI18nPromise = () => i18nPromise
+const getI18nPromiseUnchecked = () => i18nPromise
 
 const initLabels = (labels: StrMap) => {
   i18nPromise = i18next.use(initReactI18next).init({
@@ -72,6 +72,7 @@ const initI18nUnchecked = (locales: string[], labels: StrMap) => {
 
 export const {
   initI18n,
+  getI18nPromise,
   isValidLocaleUntyped,
   isValidLangUntyped,
   getLocaleUntyped,
@@ -85,6 +86,7 @@ export const {
     initI18n: initI18nUnchecked,
   },
   getter: {
+    getI18nPromise: getI18nPromiseUnchecked,
     isValidLocaleUntyped: isValidLocaleUnchecked,
     isValidLangUntyped: isValidLangUnchecked,
     getLocaleUntyped: getLocaleUnchecked,

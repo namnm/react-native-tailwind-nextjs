@@ -5,10 +5,10 @@
 
 'use client'
 
-import { toResponsiveState } from '@/rn/core/responsive/config'
+import { toClassNameResponsiveState } from '@/rn/core/responsive/config'
 import { useWindowDimensions } from '@/rn/core/utils/use-window-dimensions'
 
 export const useResponsiveState = () => {
   const d = useWindowDimensions()
-  return d && toResponsiveState(d.width)
+  return d && toClassNameResponsiveState(d.width)
 }
