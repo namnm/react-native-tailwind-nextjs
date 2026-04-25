@@ -10,7 +10,7 @@ import { Link } from '@react-navigation/native'
 import type { LinkPropsWocn } from '@/rn/core/components/base/without-class-name/link-untyped'
 import { omit } from '@/shared/lodash'
 
-const webProps: (keyof LinkPropsWocn)[] = ['prependCurrentLocale', 'scroll']
+const webProps: (keyof LinkPropsWocn)[] = ['scroll']
 
 export const LinkUntypedWocn = ({ pathname, query, ...props }: any) => {
   props = omit(props, webProps)

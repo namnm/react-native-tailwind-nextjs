@@ -14,10 +14,10 @@ export const useI18nSwitcherProps = (): I18nSwitcherProps => {
   const currentLang = useCurrentLangUntyped()
   return {
     currentLang,
-    onPress: nativeOnPress,
+    onPressNative,
   }
 }
-const nativeOnPress = async (v: string) => {
+const onPressNative = async (v: string) => {
   i18next.changeLanguage(v)
   const locale = getLocaleUntyped(v)
   mmkv.set(i18nCookieKey, locale)

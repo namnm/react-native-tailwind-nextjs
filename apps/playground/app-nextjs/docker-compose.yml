@@ -1,4 +1,24 @@
 services:
+  playground_build_nextjs:
+    container_name: playground_build_nextjs
+    image: node:24-alpine
+    platform: linux/amd64
+    volumes:
+      - ../../../:/workspace
+      # export PNPM_STORE_PATH="$(pnpm store path)"
+      - ${PNPM_STORE_PATH}:/pnpm-store
+    working_dir: /workspace/apps/playground/app-nextjs
+    environment:
+      CI: 'true'
+      NEXT_TELEMETRY_DISABLED: '1'
+    command: >
+      sh -c "
+        npm --loglevel=error install -g pnpm &&
+        pnpm config set store-dir /pnpm-store &&
+        pnpm i --frozen-lockfile &&
+        pnpm build
+      "
+
   playground_nextjs:
     container_name: playground_nextjs
     image: oven/bun:1
@@ -24,23 +44,3 @@ services:
       - ./public:/next-public
     ports:
       - '3334:80'
-
-  playground_build:
-    container_name: playground_build
-    image: node:24-alpine
-    platform: linux/amd64
-    volumes:
-      - ../../../:/workspace
-      # export PNPM_STORE_PATH="$(pnpm store path)"
-      - ${PNPM_STORE_PATH}:/pnpm-store
-    working_dir: /workspace/apps/playground/app-nextjs
-    environment:
-      CI: "true"
-      NEXT_TELEMETRY_DISABLED: "1"
-    command: >
-      sh -c "
-        npm --loglevel=error install -g pnpm &&
-        pnpm config set store-dir /pnpm-store &&
-        pnpm i --frozen-lockfile &&
-        pnpm build
-      "

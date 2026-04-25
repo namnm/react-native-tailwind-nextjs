@@ -21,7 +21,6 @@ export type LinkPropsWocn<
   Q = K extends keyof Data ? Data[K] : never,
 > = PropsWithChildren<{
   pathname: K
-  prependCurrentLocale?: boolean
   scroll?: boolean
   style?: TextStyle
 }> &
@@ -30,16 +29,15 @@ export type LinkPropsWocn<
 export const LinkUntypedWocn = async ({
   pathname,
   query,
-  prependCurrentLocale = true,
   ...props
 }: LinkPropsWocn) => {
-  if (prependCurrentLocale) {
-    const locale = await useCurrentLocaleUntyped()
-    if (locale !== getDefaultLocaleUntyped()) {
-      pathname = `/${locale}${pathname}`
-    }
+  const locale = await useCurrentLocaleUntyped()
+  if (locale !== getDefaultLocaleUntyped()) {
+    pathname = `/${locale}${pathname}`
   }
-  const q = qsStableStringify(query)
+
+  const q = query && qsStableStringify(query)
   const href = q ? `${pathname}?${q}` : pathname
+
   return <Link {...(props as any)} href={href} />
 }

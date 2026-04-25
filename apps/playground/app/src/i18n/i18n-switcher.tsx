@@ -12,11 +12,7 @@ import { useI18nSwitcherProps } from '@/rn/core/i18n/use-i18n-switcher-props'
 import { languages } from '#/i18n/config'
 
 export const I18nSwitcher = async () => {
-  const {
-    currentLang,
-    onPress: nativeOnPress,
-    renderLink: webLink,
-  } = await useI18nSwitcherProps()
+  const { currentLang, LinkWeb, onPressNative } = await useI18nSwitcherProps()
   return (
     <View className='m-2 flex-row items-center gap-2 rounded-full bg-gray-200 p-1'>
       {languages.map(l => {
@@ -30,13 +26,13 @@ export const I18nSwitcher = async () => {
                 ? 'bg-white text-gray-900 shadow-sm'
                 : 'text-gray-600',
             ]}
-            onPress={nativeOnPress && (() => nativeOnPress(lang))}
+            onPress={onPressNative && (() => onPressNative(lang))}
           >
             {l.nativeName}
           </Text>
         )
-        if (webLink) {
-          children = webLink(lang, children)
+        if (LinkWeb) {
+          children = <LinkWeb lang={lang} children={children} />
         }
         return children
       })}
