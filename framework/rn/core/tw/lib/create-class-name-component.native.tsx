@@ -6,7 +6,7 @@
 import type { FC } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
-import type { CommonProps } from '@/rn/core/components/base/lib/common-props'
+import type { CommonProps } from '@/rn/core/components/lib/common-props'
 import { useResponsiveState } from '@/rn/core/responsive'
 import { getThemeVariables } from '@/rn/core/theme/config'
 import { useDarkModeStateNative } from '@/rn/core/theme/dark-mode.native'

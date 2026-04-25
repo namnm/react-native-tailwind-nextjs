@@ -5,8 +5,8 @@
 
 'use client'
 
-import { Text } from '@/rn/core/components/base/text'
-import { View } from '@/rn/core/components/base/view'
+import { Text } from '@/rn/core/components/text'
+import { View } from '@/rn/core/components/view'
 import { useTranslationUntyped } from '@/rn/core/i18n'
 import { useDarkModeUser, useSetDarkMode } from '@/rn/core/theme/dark-mode'
 

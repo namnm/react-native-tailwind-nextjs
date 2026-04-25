@@ -56,10 +56,11 @@ const I18nSwitcherLink = async ({
   const q = query && qsStableStringify(query)
   const href = q ? `${pathname}?${q}` : pathname
 
-  // use html a href=... instead of next linkn to trigger full page reload
+  className = clsx('flex', className) as string
+  // use html a href=... instead of next link to trigger full page reload
   // to set cookie in proxy
   return (
-    <a href={href} className={clsx('flex', className) as string}>
+    <a href={href} className={className}>
       {children}
     </a>
   )

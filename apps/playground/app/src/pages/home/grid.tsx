@@ -3,8 +3,8 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { Text } from '@/rn/core/components/base/text'
-import { View } from '@/rn/core/components/base/view'
+import { Text } from '@/rn/core/components/text'
+import { View } from '@/rn/core/components/view'
 
 export const DemoGrid = () => (
   <>

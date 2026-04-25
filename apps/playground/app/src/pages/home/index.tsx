@@ -3,11 +3,11 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { Input } from '@/rn/core/components/base/input'
-import { ScrollView } from '@/rn/core/components/base/scroll-view'
-import { H1, Span } from '@/rn/core/components/base/text'
-import { View } from '@/rn/core/components/base/view'
-import { Button } from '@/rn/core/components/button'
+import { Button } from '@/rn/components/button'
+import { Input } from '@/rn/core/components/input'
+import { ScrollView } from '@/rn/core/components/scroll-view'
+import { H1, Span } from '@/rn/core/components/text'
+import { View } from '@/rn/core/components/view'
 import { useTranslationUntyped } from '@/rn/core/i18n'
 import { isWeb } from '@/rn/core/utils/platform'
 import { useSafeAreaPadding } from '@/rn/core/utils/use-safe-area'

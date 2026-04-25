@@ -3,7 +3,7 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { Text } from '@/rn/core/components/base/text'
+import { Text } from '@/rn/core/components/text'
 import { runtimeStyle } from '@/rn/core/tw/runtime-style'
 import { jsonSafe } from '@/shared/json-safe'
 

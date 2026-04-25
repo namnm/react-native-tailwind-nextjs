@@ -16,7 +16,7 @@
   "dependencies": {
     "accept-language": "3.0.20",
     "next": "16.2.4",
-    "react-dom": "19.2.5",
+    "react-dom": "19.2.3",
     "react-native-svg-web": "1.0.9",
     "react-native-web": "0.21.2"
   },

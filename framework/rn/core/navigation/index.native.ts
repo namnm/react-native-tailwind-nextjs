@@ -7,11 +7,11 @@
 
 import {
   useIsFocused,
-  useRoute as useRouteOriginal,
+  useRoute as useRouteNative,
 } from '@react-navigation/native'
 
 export const useRoute = () => {
-  const r = useRouteOriginal()
+  const r = useRouteNative()
   return {
     pathname: r.name,
     query: r.params,
