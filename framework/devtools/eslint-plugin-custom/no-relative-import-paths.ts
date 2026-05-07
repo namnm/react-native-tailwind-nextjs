@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 // copied from MelvinVermeer/eslint-plugin-no-relative-import-paths
 // the original repo is no longer maintained, and the original code has some issues
 

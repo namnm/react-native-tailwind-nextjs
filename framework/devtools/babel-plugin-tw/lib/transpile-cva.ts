@@ -1,14 +1,8 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { Node, NodePath, types as t } from '@babel/core'
 
 import type { Ctx } from '@/devtools/babel-plugin-tw/lib/context'
 import type { ClassNames } from '@/devtools/babel-plugin-tw/lib/path-to-cva-options'
 import { pathToCvaOptions } from '@/devtools/babel-plugin-tw/lib/path-to-cva-options'
-import type { Literal } from '@/devtools/babel-plugin-tw/lib/path-to-js'
 import { reconstructFn } from '@/devtools/babel-plugin-tw/lib/reconstruct-fn'
 import { omitEmpty } from '@/devtools/babel-plugin-tw/lib/utils'
 import type { StrMap } from '@/shared/ts-utils'
@@ -17,18 +11,12 @@ type TranspiledOptions = {
   className?: Node
   classNames?: StrMap<Node>
   attributes?: StrMap<StrMap>
-  defaultVariant?: StrMap<Literal>
   compoundVariants?: StrMap<Node>[]
 }
 
 export const transpileCva = (ctx: Ctx, path: NodePath<t.CallExpression>) => {
-  const {
-    className,
-    classNames,
-    attributes,
-    defaultVariant,
-    compoundVariants,
-  } = pathToCvaOptions(ctx, path)
+  const { className, classNames, attributes, compoundVariants } =
+    pathToCvaOptions(ctx, path)
 
   if ((!className && !classNames) || (className && classNames)) {
     throw ctx.err(path, 'expect one of className or classNames')
@@ -75,13 +63,6 @@ export const transpileCva = (ctx: Ctx, path: NodePath<t.CallExpression>) => {
     }
   }
 
-  const jsDefaultVariant: Required<TranspiledOptions>['defaultVariant'] = {}
-  if (defaultVariant) {
-    for (const [k, v] of Object.entries(defaultVariant.value)) {
-      jsDefaultVariant[k] = v.value
-    }
-  }
-
   const jsCompoundVariants: Required<TranspiledOptions>['compoundVariants'] = []
   if (compoundVariants) {
     for (const v1 of compoundVariants.value) {
@@ -102,7 +83,6 @@ export const transpileCva = (ctx: Ctx, path: NodePath<t.CallExpression>) => {
   const transpiled: TranspiledOptions = {
     [jsRootKey]: jsRoot,
     attributes: omitEmpty(jsAttributes),
-    defaultVariant: omitEmpty(jsDefaultVariant),
     compoundVariants: omitEmpty(jsCompoundVariants),
   }
 

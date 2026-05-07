@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { ReactNode } from 'react'
 
 import type { LinkPropsWocn } from '@/rn/core/components/without-class-name/link-untyped'

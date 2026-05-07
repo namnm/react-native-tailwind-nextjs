@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 /* eslint-disable no-restricted-imports */
 
 import { Children, useState } from 'react'
@@ -19,12 +14,13 @@ import type { GridStyle, GridTrack } from '@/rn/core/tw/class-name'
 export const ViewWocn = (props: ViewPropsWocn) => {
   props = normalizePropsNative(props)
   const Component: any = isReanimated(props) ? Animated.View : View
-  const style = props.style as GridStyle | undefined
-  if (!style) {
+  const { style } = props
+  const rawStyle = style as GridStyle | undefined
+  if (!rawStyle) {
     return renderReanimated(Component, props)
   }
 
-  const { grid, gridCols, ...styleWithoutGrid } = style
+  const { grid, gridCols, ...styleWithoutGrid } = rawStyle
   props = {
     ...props,
     style: styleWithoutGrid,
@@ -64,7 +60,7 @@ const Grid = ({
   rowGap = number(rowGap, gap)
 
   const [w, setW] = useState(0)
-  const handleLayout = (e: LayoutChangeEvent) => {
+  const onLayoutComposed = (e: LayoutChangeEvent) => {
     onLayout?.(e)
     const nextW = Math.floor(e.nativeEvent.layout.width)
     if (nextW === w) {
@@ -159,7 +155,7 @@ const Grid = ({
   })
 
   return (
-    <ViewWocn {...props} style={containerStyle} onLayout={handleLayout}>
+    <ViewWocn {...props} style={containerStyle} onLayout={onLayoutComposed}>
       {wrapped}
     </ViewWocn>
   )

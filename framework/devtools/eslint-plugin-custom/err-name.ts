@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 
 export const errName: TSESLint.RuleModule<'errName', []> = {

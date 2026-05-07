@@ -1,18 +1,12 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import type { RippleData, RippleProps } from '@/rn/components/ripple/config'
 import { rippleDurationMs } from '@/rn/components/ripple/config'
 import { Ripple } from '@/rn/components/ripple/ripple.native'
 import type { PressableRn } from '@/rn/core/components/pressable'
-import type { Nullish } from '@/shared/ts-utils'
 import { ulid } from '@/shared/ulidx'
 
-export const useRipple = (props: RippleProps | Nullish) => {
+export const useRipple = (props: RippleProps) => {
   const ref = useRef<PressableRn>(null)
   const [rippleData, setRippleData] = useState<RippleData[]>([])
 

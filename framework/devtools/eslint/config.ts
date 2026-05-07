@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { includeIgnoreFile } from '@eslint/compat'
 import type { ConfigWithExtends } from '@eslint/config-helpers'
 import { defineConfig } from '@eslint/config-helpers'
@@ -102,6 +97,11 @@ export const config = ({
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     linterOptions: {
       reportUnusedDisableDirectives: true,
     },
@@ -193,11 +193,18 @@ export const config = ({
       'prefer-arrow-callback': [warn, { allowNamedFunctions: true }],
       'func-style': [warn, 'expression', { allowArrowFunctions: true }],
 
+      'react/destructuring-assignment': [
+        warn,
+        'always',
+        { destructureInSignature: 'always' },
+      ],
+
       'custom/enforce-use-client': [warn, enforceUseClient],
       'custom/err-name': warn,
       'custom/no-missing-export': warn,
       'custom/no-access-property': off,
       'custom/no-import-default': [warn, ['react']],
+      'custom/no-import-invalid-variant': warn,
       'custom/no-import-outside': off,
       'custom/no-json-stringify': warn,
       'custom/no-nullish-coalescing': warn,

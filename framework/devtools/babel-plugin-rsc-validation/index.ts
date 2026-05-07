@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { ConfigAPI, PluginObj } from '@babel/core'
 
 import {
@@ -31,8 +26,11 @@ export const rscValidationPlugin = (api: ConfigAPI): PluginObj => {
       // use program path to get plugin pass and perform some checks before traverse
       // also prioritize this plugin over others such as react compiler
       Program: (programPath, pluginPass) => {
+        if (!shouldTranspile(pluginPass.filename)) {
+          return
+        }
         const isServer = getIsServer(pluginPass, callerIsServer)
-        if (isServer || !shouldTranspile(pluginPass.filename)) {
+        if (isServer) {
           return
         }
 

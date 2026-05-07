@@ -22,8 +22,10 @@ React Native with Tailwind CSS class names, compatible with NextJS App Router SS
   - [Navigating with Link](#navigating-with-link)
   - [Reading the current route](#reading-the-current-route)
 - [Image](#image)
+- [SVG](#svg)
 - [HTML semantic & accessibility](#html-semantic--accessibility)
 - [Appendix](#appendix)
+  - [Turbopack](#turbopack)
   - [Patch react-native-web](#patch-react-native-web)
   - [I18n internals](#i18n-internals)
   - [Navigation internals](#navigation-internals)
@@ -103,9 +105,6 @@ const button = cva({
         text: '..',
       },
     },
-  },
-  defaultVariant: {
-    // similar to cva defaultVariants
   },
   compoundVariants: [
     // similar to cva compoundVariants
@@ -194,6 +193,11 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
   - `gap-x`
   - `gap-y`
   - Only available within View.
+- Support shorthand transform:
+  - `translate-`
+  - `rotate-`
+  - `scale-`
+  - TODO: Each shorthand will be partial merged into the transform array
 
 #### Special props
 
@@ -231,7 +235,7 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
     - `hover:`
     - `group-<key>-hover:`
     - `peer-<key>-hover:`
-    - `cursor-pointer`
+    - `cursor-`
 - Support color scheme selector: `dark:`, `light:`.
 - Support responsive screen size selector: `sm:`, `md:`, `lg:`, `xl:`, `2xl:`.
 - Support event handler selector: `active:`, `focus:`.
@@ -256,6 +260,7 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
   - `Attribute` is similar to a react property. We name it attribute differentiate with other react properties such as event handlers.. An attribute defines a specific characteristic of that component. For example: color, size, shape..
   - `Attribute value` is a value of an attribute. For example with color: red, green, blue..
   - `Variant` is a combination of all attributes with their coresponding values. For example with 2 attributes color and size: color=red size=xs, color=green size=lg.. So if color has 3 values and size has 4 values, the total number of variants is 3x4=12.
+  - No default variant, values should be set in default props instead
 - All class names in cva, clsx, tw tagged, jsx className should be general string literal without any operator. With clsx and jsx, we support variable and some operators to cover the most needs. The compiler should check all the compatible for you automatically.
 
 ---
@@ -266,15 +271,13 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
 
 Similar to react native metro variant `.native` `.ios` `.android` extension alias resolve strategy, we also support `.client` extension in the client bundle, using a custom babel and webpack plugin to transpile the import path: `babel-plugin-client-extension`, `webpack-resolve-client-extension`
 
-This is currently working with webpack only, as turbopack use esm module and collect the rsc metadata single unified graph for all environments. We can support turbopack using resolveAlias by glob all .client extension files in nextjs config, but it requires to restart nextjs everytime adding/removing any .client file.
-
 To bypass rsc metadata validation as it happens before the babel process, we need to alias next modules such as `next/..` to be `next-unchecked/..`. We should use another babel plugin to validate these cases: `babel-plugin-rsc-validation`
 
-The transpiled code could be cached. If we add or remove a `.client` file, it will not be resolved correctly as the previous transpiled import path is cached, we need to remove the cache folder `.next` and restart the development server.
+The transpiled code could be cached. If we add or remove a `.client` file, it will not be resolved correctly as the previous transpiled import path is cached, we need to remove the cache folder `.next` and restart the development server. This is an acceptable trade off since this scenario does not come up often.
 
 To make sure all variants should export the same set of functionalities, we also have a custom eslint rule to check if there is mismatch export between variants and default: `custom/no-missing-export`. This rule also allows different exports in some edge cases, name the variable with cresponding variant suffix to bypass, for example `somethingNative` will not be reported in the `.native` variant.
 
-This is currently not working with `.web.client` extension, and we intentionally support only `.client`. As the server implementation is broader with async components, we should prioritize server implementation first as the default if there is difference, then client, and native last.
+This is currently not working with `.web.client` extension, and we intentionally support only `.client`: as the server implementation is broader with async components, we should prioritize server implementation first as the default if there is difference, then client, and native last.
 
 #### Async components
 
@@ -350,7 +353,7 @@ export const labels = {
 } as const
 ```
 
-TypeScript infers `'home'` as a valid `Namespace` automatically — no extra config needed.
+TypeScript infers `'home'` as a valid `Namespace` automatically - no extra config needed.
 
 **Adding a new language**
 
@@ -366,7 +369,7 @@ export const languages = [
 
 **Language switcher**
 
-`I18nSwitcher` is a ready-made component — drop it anywhere. It renders locale-prefixed links on web and pressable buttons on native with no extra wiring required.
+`I18nSwitcher` is a ready-made component - drop it anywhere. It renders locale-prefixed links on web and pressable buttons on native with no extra wiring required.
 
 ```tsx
 import { I18nSwitcher } from '#/i18n/i18n-switcher'
@@ -383,7 +386,7 @@ export const MyPage = async () => (
 
 ### Theme
 
-Theme and dark mode is already set up and configured to work on all variants: server, client, native.
+Theme and dark mode is already set up and configured to work on all variants: server, client, native. 10 themes included in the built in, adaptive with dark mode.
 
 ---
 
@@ -393,7 +396,7 @@ Navigation works across all variants (server, client, native) with a unified API
 
 #### Adding a route
 
-Routes shared between RN and Next.js — add the path constant, register it in both routers:
+Routes shared between RN and Next.js - add the path constant, register it in both routers:
 
 ```ts
 // apps/playground/app/src/pages/route-paths.ts
@@ -419,9 +422,9 @@ export type RoutesData = {
 apps/playground/app-nextjs/src/app/[locale]/profile/page.tsx
 ```
 
-RN-only routes — add to `route-paths.ts` and `routes.ts` only, no Next.js page needed.
+RN-only routes - add to `route-paths.ts` and `routes.ts` only, no Next.js page needed.
 
-Next.js-only routes — create the page file under `app-nextjs/src/app/[locale]/` only, no entry in `routes.ts` needed.
+Next.js-only routes - create the page file under `app-nextjs/src/app/[locale]/` only, no entry in `routes.ts` needed.
 
 #### Navigating with Link
 
@@ -430,10 +433,10 @@ Use the typed `Link` from `#/components/link`. The `pathname` prop is constraine
 ```tsx
 import { Link } from '#/components/link'
 
-// route with no params — query can be omitted
+// route with no params - query can be omitted
 <Link pathname={rHome}>Go home</Link>
 
-// route with required params — query is required and typed
+// route with required params - query is required and typed
 <Link pathname={rProfile} query={{ userId: '123' }}>Profile</Link>
 ```
 
@@ -454,6 +457,12 @@ Image component is aliased using `react-native-fast-image` in native and a plain
 
 ---
 
+### SVG
+
+SVG can be imported directly into the code as react component thanks to svgr loader. It will render with width equals to font size and height equal to line height. Color should be configured in the svg with `currentColor` to inherit automatically. The prop `style` will be omitted on web, always use `className` to style it instead.
+
+---
+
 ### HTML semantic & accessibility
 
 Beside the official semantic props such as `accessibilityRole`, `aria-*`.. we also have `rnwTag` to customize the html tag for the base components.
@@ -461,6 +470,17 @@ Beside the official semantic props such as `accessibilityRole`, `aria-*`.. we al
 ---
 
 ### Appendix
+
+#### Turbopack
+
+This is currently working with webpack only, as turbopack use esm module and collect the rsc metadata single unified graph for all environments, and it is not supported to directly use typescript in commonjs, but react native requires commonjs. We can support turbopack by having extra build steps:
+
+- All packages must be prebuilt to commonjs first
+- Generate css theme variables in js in the build step
+- Use resolveAlias glob all .client extension files in nextjs config
+- Require to rebuild css or restart nextjs everytime adding/removing any .client file, but this is acceptable
+
+Additionally, turbopack also has some known issues with bundle chunks size, and with the nature of react native commonjs, it is not recommended to support turbopack for now.
 
 #### Patch react-native-web
 
@@ -480,9 +500,9 @@ Beside the official semantic props such as `accessibilityRole`, `aria-*`.. we al
 
 The core framework lives in `framework/rn/core/i18n` with platform-specific entry points:
 
-- `index.tsx` — server components: async hooks that read the `x-i18n-locale` request header (set by Next.js middleware), wrapped in React `cache()` for request-level memoization
-- `index.client.tsx` — client components: sync hooks that parse the locale from the URL pathname
-- `index.native.tsx` — React Native: hooks backed by the i18next instance; exports `I18nProviderNative` (wraps the app with `I18nextProvider`) and `initI18nNative()` (initializes i18next and reads the persisted locale from AsyncStorage)
+- `index.tsx` - server components: async hooks that read the `x-i18n-locale` request header (set by Next.js middleware), wrapped in React `cache()` for request-level memoization
+- `index.client.tsx` - client components: sync hooks that parse the locale from the URL pathname
+- `index.native.tsx` - React Native: hooks backed by the i18next instance; exports `I18nProviderNative` (wraps the app with `I18nextProvider`) and `initI18nNative()` (initializes i18next and reads the persisted locale from AsyncStorage)
 
 Language switching is handled by `use-i18n-switcher-props.tsx` (web) and `use-i18n-switcher-props.native.tsx` (native). On web, switching navigates to a locale-prefixed URL that Next.js middleware intercepts to set the locale cookie. On native, it calls i18next directly and writes the new locale to AsyncStorage.
 
@@ -494,11 +514,11 @@ The framework uses an "Untyped" naming convention for generic exports (`useTrans
 
 The core framework lives in `framework/rn/core/navigation` with platform-specific entry points:
 
-- `index.ts` — server components: reads the current URL from the `x-request-url` header (set by Next.js middleware), strips the locale prefix, parses query params; `useIsRouteFocused()` always returns `true`
-- `index.client.ts` — client components: sync hooks using `usePathname()` and `useSearchParams()` from `next-unchecked/navigation`; `useIsRouteFocused()` always returns `true`
-- `index.native.ts` — React Native: wraps `useRoute` and `useIsFocused` from `@react-navigation/native`, mapping `route.name` → `pathname` and `route.params` → `query`
+- `index.ts` - server components: reads the current URL from the `x-request-url` header (set by Next.js middleware), strips the locale prefix, parses query params; `useIsRouteFocused()` always returns `true`
+- `index.client.ts` - client components: sync hooks using `usePathname()` and `useSearchParams()` from `next-unchecked/navigation`; `useIsRouteFocused()` always returns `true`
+- `index.native.ts` - React Native: wraps `useRoute` and `useIsFocused` from `@react-navigation/native`, mapping `route.name` → `pathname` and `route.params` → `query`
 
-RN and Next.js are separate bundles with separate routing strategies. For RN, `routes.ts` is passed to `createNativeStackNavigator({ screens: routes })` in `app.native.tsx` and wrapped with `createStaticNavigation`. For Next.js, routing is entirely handled by the folder structure under `pp/[locale]/` — no extra registration needed. `route-paths.ts` is kept separate from `routes.ts` to avoid circular imports between the route map and page components.
+RN and Next.js are separate bundles with separate routing strategies. For RN, `routes.ts` is passed to `createNativeStackNavigator({ screens: routes })` in `app.native.tsx` and wrapped with `createStaticNavigation`. For Next.js, routing is entirely handled by the folder structure under `pp/[locale]/` - no extra registration needed. `route-paths.ts` is kept separate from `routes.ts` to avoid circular imports between the route map and page components.
 
 The `Link` component at `apps/playground/app/src/components/link.tsx` wraps the framework's `LinkUntyped` with the app's own `Routes` and `RoutesData` types. On web it delegates to `next/link` and prepends the current locale to the pathname when needed.
 

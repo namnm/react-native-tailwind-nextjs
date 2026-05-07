@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { binRequireResolve, cmd, exec } from '@/nodejs/exec'
 import { gitignorePath } from '@/nodejs/gitignore'
 import { path, resolvePath } from '@/nodejs/path'

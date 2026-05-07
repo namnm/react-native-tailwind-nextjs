@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { FC, PropsWithChildren } from 'react'
 import { cache } from 'react'
 
@@ -11,6 +6,7 @@ import { getLocaleUntyped } from '@/rn/core/i18n/config'
 import { useRoute } from '@/rn/core/navigation'
 import type { ClassName } from '@/rn/core/tw/class-name'
 import { clsx } from '@/rn/core/tw/clsx'
+import { normalizePathname } from '@/rn/core/utils/normalize-pathname'
 import { qsStableStringify } from '@/shared/qs'
 
 export type I18nSwitcherProps = {
@@ -52,7 +48,7 @@ const I18nSwitcherLink = async ({
   // when switching lang, always render link with locale explicitly
   // to set cookie in proxy
   const locale = getLocaleUntyped(lang)
-  const pathname = `/${locale}${pathWithoutLocale}`
+  const pathname = normalizePathname(`/${locale}${pathWithoutLocale}`)
   const q = query && qsStableStringify(query)
   const href = q ? `${pathname}?${q}` : pathname
 

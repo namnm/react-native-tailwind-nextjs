@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 const message = 'Use `@/rn/core` instead'
 
 export const restrictedImports = [
@@ -26,7 +21,6 @@ export const restrictedImports = [
       'SafeAreaView',
       'SafeAreaViewBase',
       'useWindowDimensions',
-      'useColorScheme',
     ],
     message,
   },

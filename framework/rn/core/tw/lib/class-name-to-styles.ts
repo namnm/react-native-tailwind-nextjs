@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type {
   ClassName,
   ClassNameNative,
@@ -12,6 +7,7 @@ import type {
 import { getTwrnc } from '@/rn/core/tw/config'
 import { twUnminifyWeb } from '@/rn/core/tw/lib/class-name-minified'
 import { classNameToNative } from '@/rn/core/tw/lib/class-name-to-native'
+import { hexToRgba } from '@/rn/core/utils/hex-to-rgba'
 import { platform } from '@/rn/core/utils/platform'
 import type { Nullish, StrMap } from '@/shared/ts-utils'
 
@@ -72,9 +68,13 @@ const classNameToStylesRecursive = ({
   }
 
   if ('variable' in className) {
-    const v = variables?.[className.variable]
+    const { variable, alpha } = className
+    let v = variables?.[variable]
     if (!v) {
       return
+    }
+    if (typeof alpha === 'number') {
+      v = hexToRgba(v, alpha)
     }
     styles.push({
       level,

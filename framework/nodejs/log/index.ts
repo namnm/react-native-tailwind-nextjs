@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { bold, cyan, gray, magenta, red, yellow } from 'colors/safe'
 import type { StackFrame } from 'stack-trace'
 import stacktrace from 'stack-trace'

@@ -36,7 +36,8 @@
     },
     "patchedDependencies": {
       "react-native-web": "patches/react-native-web.patch",
-      "eslint-plugin-import": "patches/eslint-plugin-import.patch"
+      "eslint-plugin-import": "patches/eslint-plugin-import.patch",
+      "eslint-plugin-react": "patches/eslint-plugin-react.patch"
     }
   }
 }

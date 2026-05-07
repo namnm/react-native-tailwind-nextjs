@@ -1,10 +1,4 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { getInAlias } from '@/devtools/ts/get-alias'
-import { fs } from '@/nodejs/fs'
 import { path } from '@/nodejs/path'
 import type { StrMap } from '@/shared/ts-utils'
 
@@ -14,12 +8,14 @@ const alreadyResolved = ['client', 'server', 'native', 'ios', 'android']
 
 type Options = {
   alias: StrMap<string>
+  clients: StrMap<true>
   currentFilename: string
   importPath: string
 }
 
 export const getClientVariant = ({
   alias,
+  clients,
   currentFilename,
   importPath,
 }: Options) => {
@@ -46,7 +42,7 @@ export const getClientVariant = ({
         // NOTE: in react native, it is transpiled anyway and it will import itself with this case
         return
       }
-      if (fs.existsSync(abs)) {
+      if (clients[abs]) {
         return `${importPath}${idx}.client`
       }
     }

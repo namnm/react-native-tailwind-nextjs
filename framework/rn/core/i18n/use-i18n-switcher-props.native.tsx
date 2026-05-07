@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import i18next from 'i18next'
 
 import { getLocaleUntyped, i18nCookieKey } from '@/rn/core/i18n/config'

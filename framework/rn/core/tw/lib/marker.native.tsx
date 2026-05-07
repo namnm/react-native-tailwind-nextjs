@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { PropsWithChildren } from 'react'
 import { createContext, useContext } from 'react'
 
@@ -51,4 +46,4 @@ export const MarkerPeerProvider = ({ children }: PeerProviderProps) => {
   )
 }
 export const useMarkerPeerSetState = () => useSafeContext(PeerContext).setState
-export const useMarkerPeerState = () => useSafeContext(PeerContext).state
+export const useMarkerPeerState = () => useContext(PeerContext)?.state

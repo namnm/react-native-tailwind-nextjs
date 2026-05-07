@@ -1,8 +1,6 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
+import type { ConfigAPI } from '@babel/core'
 
+import { getCallerClientOnly } from '@/devtools/babel-config/is-server'
 import { asyncHookPlugin } from '@/devtools/babel-plugin-async-hook'
 import { clientExtensionPlugin } from '@/devtools/babel-plugin-client-extension'
 import { rscValidationPlugin } from '@/devtools/babel-plugin-rsc-validation'
@@ -29,23 +27,40 @@ export const config = ({
   }
 
   if (target === 'nextjs') {
-    const clientExtensionOptions = {
-      alias: getAlias(dir),
-    }
-
-    return {
-      plugins: [
+    return (api: ConfigAPI) => {
+      const plugins: any[] = [
+        //
         rscValidationPlugin,
-        [clientExtensionPlugin, clientExtensionOptions],
+        clientExtensionPlugin,
         asyncHookPlugin,
-        [twPlugin, twOptions],
-        require.resolve('react-native-worklets/plugin'),
-      ],
-      presets: [
+      ]
+      const presets: any[] = [
+        //
         require.resolve('@babel/preset-typescript'),
-        [require.resolve('@babel/preset-react'), { runtime: 'automatic' }],
-      ],
-      compact: false,
+      ]
+
+      if (getCallerClientOnly(api)) {
+        plugins.push(
+          //
+          require.resolve('babel-plugin-react-compiler'),
+        )
+      } else {
+        plugins.push(
+          //
+          [twPlugin, twOptions],
+          require.resolve('react-native-worklets/plugin'),
+        )
+        presets.push(
+          //
+          [require.resolve('@babel/preset-react'), { runtime: 'automatic' }],
+        )
+      }
+
+      return {
+        plugins,
+        presets,
+        compact: false,
+      }
     }
   }
 
@@ -63,13 +78,18 @@ export const config = ({
 
   return {
     plugins: [
+      //
       rscValidationPlugin,
       [asyncHookPlugin, asyncHookOptions],
       [twPlugin, twOptions],
+      require.resolve('babel-plugin-react-compiler'),
       [require.resolve('babel-plugin-module-resolver'), moduleResolverOptions],
       require.resolve('react-native-worklets/plugin'),
     ],
-    presets: [require.resolve('@react-native/babel-preset')],
+    presets: [
+      //
+      require.resolve('@react-native/babel-preset'),
+    ],
     compact: false,
   }
 }

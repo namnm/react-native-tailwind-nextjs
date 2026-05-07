@@ -1,15 +1,18 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
-import type { ThemeConfig } from '@/rn/core/theme/themes'
+import type { ClassName } from '@/rn/core/tw/class-name'
+import type { ThemeVariables } from '@/rn/core/twrnc-config'
 import { validateThemeVariables } from '@/rn/core/twrnc-config'
 import { initSingleton } from '@/rn/core/utils/init-singleton'
 import type { Falsish } from '@/shared/ts-utils'
 
 export const themeCookieKey = 'theme'
 export const themeCookieMaxAge = 60 * 60 * 24 * 365
+
+export type ThemeConfig = {
+  name: string
+  className: ClassName
+  variables: ThemeVariables
+  darkVariables?: Partial<ThemeVariables>
+}
 
 let themes: ThemeConfig[] = []
 let themesMap = new Map(themes.map(t => [t.name, t]))
@@ -29,7 +32,7 @@ const initThemeUnchecked = (
 
   if (process.env.NODE_ENV !== 'production') {
     for (const t of availableThemes) {
-      validateThemeVariables(t.variables)
+      validateThemeVariables(t)
     }
   }
 }
@@ -62,7 +65,23 @@ export const { initTheme, getAvailableThemes, toValidTheme, getThemeConfig } =
     },
   })
 
-export const getThemeClassName = (theme: string | Falsish) =>
-  getThemeConfig(theme)?.className
-export const getThemeVariables = (theme: string | Falsish) =>
-  getThemeConfig(theme)?.variables
+export const getThemeClassName = (theme: string | Falsish) => {
+  const c = getThemeConfig(theme)
+  if (!c) {
+    return
+  }
+  return c.className
+}
+export const getThemeVariables = (theme: string | Falsish, dark?: boolean) => {
+  const c = getThemeConfig(theme)
+  if (!c) {
+    return
+  }
+  if (!dark || !c.darkVariables) {
+    return c.variables
+  }
+  return {
+    ...c.variables,
+    ...c.darkVariables,
+  }
+}

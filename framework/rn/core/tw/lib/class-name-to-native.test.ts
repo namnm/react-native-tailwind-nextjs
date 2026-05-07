@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { describe, expect, it } from 'vitest'
 
 import { createTwrnc } from '@/devtools/babel-plugin-tw/lib/create-twrnc'
@@ -198,6 +193,12 @@ describe('classNameToNative', () => {
     }))
   it('delay-100', () => e('delay-100', { transitionDelay: 100 }))
 
+  // transition shorthand
+  it('translate-', () => e('translate-x-1', { transform: [{ translateX: 4 }] }))
+  it('rotate-', () =>
+    e('rotate-[180deg]', { transform: [{ rotate: '180deg' }] }))
+  it('scale-', () => e('scale-50', { transform: [{ scale: 0.5 }] }))
+
   // animation
   it('animate-spin', () => e('animate-spin', { animationName: 'spin' }))
   it('animate-ping', () => e('animate-ping', { animationName: 'ping' }))
@@ -238,4 +239,18 @@ describe('classNameToNative', () => {
   it('object-none', () => e('object-none', { resizeMode: 'none' }))
   it('object-scale-down', () =>
     e('object-scale-down', { resizeMode: 'scale-down' }))
+
+  // variable
+  it('variable', () =>
+    e('text-primary', { variable: '--primary-500', key: 'color' }))
+
+  // alpha
+  it('alpha builtin', () =>
+    e('text-red-500/50', { color: 'rgba(239, 68, 68, 0.5)' }))
+  it('alpha variable', () =>
+    e('text-primary/50', {
+      variable: '--primary-500',
+      alpha: 0.5,
+      key: 'color',
+    }))
 })

@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { cookies } from 'next-unchecked/headers'
 import { cache } from 'react'
 
@@ -16,5 +11,6 @@ export const useTheme = cache(async () => {
 
 export const useSetTheme = () => (v: string | undefined) => {
   // server polyfill
-  // should be transpiled on the client or native variant
+  // function reference will always be in client bundle
+  // should be transpiled on the client and native variant
 }

@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 @custom-variant web {
   html.web- & {
     @slot;
@@ -20,7 +15,9 @@
   }
 }
 
-@import './theme/themes/corporate.theme.css';
-@import './theme/themes/forest.theme.css';
-@import './theme/themes/phoenix.theme.css';
-@import './theme/themes/ruby.theme.css';
+html {
+  --safe-area-inset-t: env(safe-area-inset-top);
+  --safe-area-inset-l: env(safe-area-inset-left);
+  --safe-area-inset-b: env(safe-area-inset-bottom);
+  --safe-area-inset-r: env(safe-area-inset-right);
+}

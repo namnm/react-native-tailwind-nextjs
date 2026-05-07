@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { NodePath } from '@babel/core'
 import { types as t } from '@babel/core'
 
@@ -17,7 +12,6 @@ import {
   pathToArray,
   pathToLiteral,
   pathToObject,
-  pathToObjectLiteral,
   pathToObjectString,
   pathToString,
 } from '@/devtools/babel-plugin-tw/lib/path-to-js'
@@ -32,7 +26,6 @@ export type Options = {
   className?: WithPath<string>
   classNames?: WithPath<ClassNames>
   attributes?: WithPath<Attrs>
-  defaultVariant?: WithPath<Variant>
   compoundVariants?: WithPath<ArrWp<CompoundVariant>>
 }
 
@@ -74,9 +67,6 @@ export const pathToCvaOptions = (
                   : pathToObjectString(ctx, innerPath3, kPath3),
             ),
         )
-      }
-      if (k === 'defaultVariant') {
-        return pathToObjectLiteral(ctx, innerPath, kPath)
       }
       if (k === 'compoundVariants') {
         return pathToArray(ctx, innerPath, kPath, (i, innerPath2) =>

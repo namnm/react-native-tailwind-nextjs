@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 /* eslint-disable no-restricted-imports */
 
 import Link from 'next/link'
@@ -11,6 +6,7 @@ import type { TextStyle } from 'react-native'
 
 import { useCurrentLocaleUntyped } from '@/rn/core/i18n'
 import { getDefaultLocaleUntyped } from '@/rn/core/i18n/config'
+import { normalizePathname } from '@/rn/core/utils/normalize-pathname'
 import { qsStableStringify } from '@/shared/qs'
 import type { NonUndefinedKeys } from '@/shared/ts-utils'
 
@@ -33,7 +29,7 @@ export const LinkUntypedWocn = async ({
 }: LinkPropsWocn) => {
   const locale = await useCurrentLocaleUntyped()
   if (locale !== getDefaultLocaleUntyped()) {
-    pathname = `/${locale}${pathname}`
+    pathname = normalizePathname(`/${locale}${pathname}`)
   }
 
   const q = query && qsStableStringify(query)

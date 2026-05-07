@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 /* eslint-disable no-restricted-imports */
 
 import Image from 'react-native-fast-image'
@@ -18,7 +13,9 @@ const styleProps = ['resizeMode']
 export const ImageWocn = ({ src, ...props }: ImagePropsWocn) => {
   props = styleToProps(props, styleProps)
   const Component: any = isReanimated(props) ? AnimatedImage : Image
-  const source = typeof src === 'string' ? { uri: src } : src
+
+  const ty = typeof src
+  const source = ty === 'string' || ty === 'number' ? { uri: src } : src
 
   return renderReanimated(Component, {
     ...props,

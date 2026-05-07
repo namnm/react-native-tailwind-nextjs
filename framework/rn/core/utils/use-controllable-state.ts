@@ -1,24 +1,17 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 'use client'
 
 import { useCallback, useRef, useState } from 'react'
 
-type UseControllableStateProps<T> = {
-  value?: T
-  onChange?: (value: T) => void
-  defaultValue?: T
-}
+import type { ValueProps } from '@/shared/ts-utils'
 
 export const useControllableState = <T>({
   value,
-  onChange,
   defaultValue,
-}: UseControllableStateProps<T>) => {
-  const [_state, _setState] = useState<T | undefined>(defaultValue)
+  onChange,
+}: ValueProps<T>) => {
+  const [uncontrolledState, setUncontrolledState] = useState<T | undefined>(
+    defaultValue,
+  )
 
   const isControlled = value !== undefined
   const controlledRef = useRef(isControlled)
@@ -34,18 +27,27 @@ export const useControllableState = <T>({
     }
   }
 
-  const state = isControlled ? value : _state
+  const state = isControlled ? value : uncontrolledState
+
+  const stateRef = useRef(state)
+  stateRef.current = state
+
+  const onChangeRef = useRef(onChange)
+  onChangeRef.current = onChange
+
   const setState = useCallback(
     (v: T | ((prev: T) => T)) => {
       const nextValue =
-        typeof v === 'function' ? (v as (prev: T) => T)(state as T) : v
+        typeof v === 'function'
+          ? (v as (prev: T) => T)(stateRef.current as T)
+          : v
 
       if (!isControlled) {
-        _setState(nextValue)
+        setUncontrolledState(nextValue)
       }
-      onChange?.(nextValue)
+      onChangeRef.current?.(nextValue)
     },
-    [isControlled, onChange, state],
+    [isControlled],
   )
 
   return [state as T, setState] as const

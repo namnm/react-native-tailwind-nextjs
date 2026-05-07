@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { path } from '@/nodejs/path'
 import type { StrMap } from '@/shared/ts-utils'
 
@@ -30,4 +25,22 @@ export const getInAlias = (importPath: string, alias: StrMap<string>) => {
     }
   }
   return []
+}
+
+export const toAlias = (alias: StrMap<string>, abs: string) => {
+  // longest dir first so a more-specific alias wins over a shorter one
+  // e.g. '@/shared' beats '@' when both could match
+  const sorted = Object.entries(alias).sort((a, b) => b[1].length - a[1].length)
+  for (const [key, dir] of sorted) {
+    if (!abs.startsWith(`${dir}/`)) {
+      continue
+    }
+    const rel = abs
+      // strip dir
+      .slice(dir.length + 1)
+      // strip ext
+      .replace(/\.[^/.]+$/, '')
+    return `${key}/${rel}`
+  }
+  throw new Error(`No alias found for ${abs}`)
 }

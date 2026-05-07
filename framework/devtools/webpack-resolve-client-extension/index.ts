@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { Resolver } from 'enhanced-resolve'
 
 import { getClientVariant } from '@/devtools/babel-config/get-client-variant'
@@ -17,8 +12,13 @@ import type { StrMap } from '@/shared/ts-utils'
 
 export class ResolveClientExtension {
   alias: StrMap<string>
-  constructor(dir: string) {
+  clients: StrMap<true>
+  constructor(dir: string, clients: string[]) {
     this.alias = getAlias(dir)
+    this.clients = clients.reduce((m, a) => {
+      m[a] = true
+      return m
+    }, {} as StrMap<true>)
   }
 
   apply = (resolver: Resolver) => {
@@ -46,6 +46,7 @@ export class ResolveClientExtension {
 
           const clientVariant = getClientVariant({
             alias: this.alias,
+            clients: this.clients,
             currentFilename,
             importPath,
           })

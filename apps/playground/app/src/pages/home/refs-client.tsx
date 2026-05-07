@@ -1,12 +1,8 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 'use client'
 
 import { useEffect, useRef } from 'react'
 
+import { Span } from '@/rn/components/text'
 import type { FlatListRn } from '@/rn/core/components/flat-list'
 import { FlatList } from '@/rn/core/components/flat-list'
 import type { InputRn } from '@/rn/core/components/input'
@@ -58,19 +54,17 @@ export const RefsClient = () => {
   }, [])
 
   const comma = (
-    <Text className='text-center text-black transition dark:text-white'>
-      {', '}
-    </Text>
+    <Span className='text-foreground text-center transition'>{', '}</Span>
   )
   const item = (k: string) => (
-    <Text
+    <Span
       className={[
         'text-center',
         state[camelCase(k)] ? 'text-green-500' : 'text-red-500',
       ]}
     >
       {k}
-    </Text>
+    </Span>
   )
 
   const nativeRefs = (
@@ -93,9 +87,9 @@ export const RefsClient = () => {
     <>
       {isWeb && nativeRefs}
       <View className='mx-auto mt-5 max-w-100'>
-        <Text className='text-center font-bold text-black transition dark:text-white'>
+        <Span className='text-foreground text-center font-medium transition'>
           Native Refs
-        </Text>
+        </Span>
         <View className='flex flex-row'>
           {item('Text')}
           {comma}

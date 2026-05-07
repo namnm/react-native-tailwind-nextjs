@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { PickByValue, PickByValueExact } from 'utility-types'
 
 export * from 'utility-types'
@@ -84,3 +79,18 @@ export type NoExtra<T, U extends Partial<T> = T> = U & {
 export type StrMap<T = any> = Record<string, T>
 export type FnAny<T = any> = (...args: any[]) => T
 export type OrArr<T> = T | T[]
+
+export type ValueProps<T> = {
+  value?: T
+  defaultValue?: T
+  onChange?: (value: T) => void
+}
+export type SingleProps<T = string> = ValueProps<T> & {
+  multiple?: false
+}
+export type MultipleProps<T = string> = ValueProps<T[]> & {
+  multiple: true
+}
+export type SingleOrMultipleProps<T = string> =
+  | SingleProps<T>
+  | MultipleProps<T>

@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 // react-native entry point
 
 import '#/polyfill/native'
@@ -10,15 +5,15 @@ import '#/polyfill/native'
 import { createStaticNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import type { PropsWithChildren } from 'react'
-import { useEffect, useState } from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import { AppRegistry } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { I18nProviderNative, initI18nNative } from '@/rn/core/i18n/index.native'
 import {
   DarkModeProviderNative,
   initDarkModeNative,
-} from '@/rn/core/theme/dark-mode.native'
+} from '@/rn/core/dark-mode/index.native'
+import { I18nProviderNative, initI18nNative } from '@/rn/core/i18n/index.native'
 import {
   initThemeNative,
   ThemeProviderNative,
@@ -26,14 +21,14 @@ import {
 import { TwPeerProvider } from '@/rn/core/tw/marker'
 import { tw } from '@/rn/core/tw/tw'
 import { composeProviders } from '@/rn/core/utils/compose-providers'
-import { rHome } from '#/pages/route-paths'
-import { routes } from '#/pages/routes'
+import { rButtonToggleGroup } from '#/pages/route-paths'
+import { routesNative } from '#/pages/routes.native'
 
 import { name as appName } from '../app.json'
 
 const RootStack = createNativeStackNavigator({
-  screens: routes,
-  initialRouteName: rHome,
+  screens: routesNative,
+  initialRouteName: rButtonToggleGroup,
   screenOptions: {
     headerShown: false,
     contentStyle: tw`bg-white`,
@@ -62,6 +57,7 @@ const LoadingProvider = ({ children }: PropsWithChildren) => {
 }
 
 export const App = composeProviders(
+  StrictMode,
   LoadingProvider,
   SafeAreaProvider,
   I18nProviderNative,

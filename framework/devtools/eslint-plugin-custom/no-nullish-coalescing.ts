@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { TSESLint } from '@typescript-eslint/utils'
 
 export const noNullishCoalescing: TSESLint.RuleModule<
@@ -12,10 +7,12 @@ export const noNullishCoalescing: TSESLint.RuleModule<
   meta: {
     type: 'problem',
     docs: {
-      description: 'Make it more verbose such as `!v ? v1 : v2`',
+      description:
+        'Make it more verbose such as `!v ? v1 : v2` or `v || v1` or `v && v1`',
     },
     messages: {
-      noNullishCoalescing: 'Make it more verbose such as `!v ? v1 : v2`',
+      noNullishCoalescing:
+        'Make it more verbose such as `!v ? v1 : v2` or `v || v1` or `v && v1`',
     },
     schema: [],
   },

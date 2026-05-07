@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import template from '@babel/template'
 
 import type { Ctx } from '@/devtools/babel-plugin-tw/lib/context'

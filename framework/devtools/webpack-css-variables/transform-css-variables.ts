@@ -1,14 +1,9 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import * as csstree from 'css-tree'
 
 import { jsonSafe } from '@/shared/json-safe'
 import type { StrMap } from '@/shared/ts-utils'
 
-export const cssVariablesFilenameRegex = /\.theme\.css$/
+export const cssVariablesFilenameRegex = /\.extract-variables\.css$/
 
 export const transformCssVariables = (src: string) => {
   const vars = extractCssVariables(src)

@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { transform as defaultTransform } from '@react-native/metro-babel-transformer'
 import { transform as svgTransform } from 'react-native-svg-transformer/react-native'
 

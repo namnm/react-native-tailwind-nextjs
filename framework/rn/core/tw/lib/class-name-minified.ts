@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { twMerge as twMergeOriginal } from 'tailwind-merge'
 
 import { minifiedToTw, twToMinified } from '@/rn/core/tw/config'

@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 /** @param {{dir: string, env?: true, babel?: true, req?: string}} options */
 module.exports = options => {
   // try to load .env and .env.example all together from dir up to root

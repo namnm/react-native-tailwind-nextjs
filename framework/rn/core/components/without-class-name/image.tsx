@@ -1,18 +1,12 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
-import type { FC } from 'react'
 import type { ImageStyle } from 'react-native'
 
 export type ImagePropsWocn = {
-  // only support some basic props for now
+  // only support some basic props
   // resize mode should be supported using class name in native
+  // other nextjs features such as image optimization or ratio
+  // should be done in api backend
   src: string
   style?: ImageStyle
 }
 
-export const ImageWocn: FC<ImagePropsWocn> = props => (
-  <img {...(props as any)} />
-)
+export const ImageWocn = (props: ImagePropsWocn) => <img {...(props as any)} />

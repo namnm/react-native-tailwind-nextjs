@@ -1,16 +1,10 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { FC } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 import type { CommonProps } from '@/rn/core/components/lib/common-props'
-import { useResponsiveState } from '@/rn/core/responsive'
-import { getThemeVariables } from '@/rn/core/theme/config'
-import { useDarkModeStateNative } from '@/rn/core/theme/dark-mode.native'
-import { useTheme } from '@/rn/core/theme/index.native'
+import { useDarkModeState } from '@/rn/core/dark-mode/use-dark-mode-state'
+import { useResponsiveState } from '@/rn/core/responsive/use-responsive-state'
+import { useThemeVariables } from '@/rn/core/theme/use-theme-variables'
 import type {
   ClassName,
   ClassNameDarkModeState,
@@ -55,7 +49,7 @@ export const createClassNameComponent = ({
 }: CreateClassNameComponentOptions) => {
   const { Component, displayName } = createClassNameComponentOptions(options)
 
-  const Outer = (props: any) => {
+  const Outer = async ({ twStableProvider, ...props }: Props) => {
     const classNameKeys = ['className']
     const styleKeys = ['style']
 
@@ -80,20 +74,19 @@ export const createClassNameComponent = ({
 
     // theme is rarely changed, so we can just get it here
     // other selectors should be checked in inner component and only wrap when necessary
-    const theme = useTheme()
-    const { twStableProvider, ...p } = props as Props
+    const variables = await useThemeVariables()
 
     return (
       <ClassNameComponent
         Component={Component}
-        props={p}
+        props={props}
         classNameKeys={classNameKeys}
         styleKeys={styleKeys}
         // initial state is the props state where we can get from the props
         state={propsState}
         // theme is rarely changed, so we can just get it here
         // other selectors should be checked in inner component and only wrap when necessary
-        variables={getThemeVariables(theme)}
+        variables={variables}
         // pass metadata to try to collect class name selector dependencie
         metadata={getInitialMetadata(twStableProvider)}
       />
@@ -279,40 +272,44 @@ const withResponsive = (Inner: FC<InnerProps>) => (props: InnerProps) => {
   return <Inner {...props} responsiveState={responsiveState} />
 }
 
-const withDarkMode = (Inner: FC<InnerProps>) => (props: InnerProps) => {
-  const darkModeState = useDarkModeStateNative()
+const withDarkMode = (Inner: FC<InnerProps>) => async (props: InnerProps) => {
+  const darkModeState = await useDarkModeState()
   return <Inner {...props} darkModeState={darkModeState} />
 }
 
-const withActive = (Inner: FC<InnerProps>) => (props: InnerProps) => {
-  const [active, setActive] = useState(false)
-  return (
-    <Inner
-      {...props}
-      active={active}
-      handlers={{
-        ...props.handlers,
-        onPressIn: () => setActive(true),
-        onPressOut: () => setActive(false),
-      }}
-    />
-  )
-}
+const withActive =
+  (Inner: FC<InnerProps>) =>
+  ({ handlers, ...props }: InnerProps) => {
+    const [active, setActive] = useState(false)
+    return (
+      <Inner
+        {...props}
+        active={active}
+        handlers={{
+          ...handlers,
+          onPressIn: () => setActive(true),
+          onPressOut: () => setActive(false),
+        }}
+      />
+    )
+  }
 
-const withFocus = (Inner: FC<InnerProps>) => (props: InnerProps) => {
-  const [focus, setFocus] = useState(false)
-  return (
-    <Inner
-      {...props}
-      focus={focus}
-      handlers={{
-        ...props.handlers,
-        onFocus: () => setFocus(true),
-        onBlur: () => setFocus(false),
-      }}
-    />
-  )
-}
+const withFocus =
+  (Inner: FC<InnerProps>) =>
+  ({ handlers, ...props }: InnerProps) => {
+    const [focus, setFocus] = useState(false)
+    return (
+      <Inner
+        {...props}
+        focus={focus}
+        handlers={{
+          ...handlers,
+          onFocus: () => setFocus(true),
+          onBlur: () => setFocus(false),
+        }}
+      />
+    )
+  }
 
 const withGroup = (Inner: FC<InnerProps>) => (props: InnerProps) => {
   const groupState = useMarkerGroupState()
@@ -328,7 +325,7 @@ const withGroupProvider = (Inner: FC<InnerProps>) => (props: InnerProps) => {
   const state = getMarkerProviderState('group', props)
   if (!state) {
     // should not happen
-    return null
+    return <Inner {...props} />
   }
   return (
     <MarkerGroupProvider state={state}>

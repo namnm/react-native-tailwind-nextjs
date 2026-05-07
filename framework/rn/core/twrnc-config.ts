@@ -1,36 +1,37 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { TwConfig } from 'twrnc'
 
+import type { ThemeConfig } from '@/rn/core/theme/config'
 import type { StrMap } from '@/shared/ts-utils'
 
 const colors = [
   'primary',
   'secondary',
-  'accent',
   'info',
   'success',
   'warning',
   'error',
 ] as const
-const steps = [
-  50,
-  100,
-  200,
-  300,
-  400,
-  500,
-  600,
-  700,
-  800,
-  900,
-  950,
+const steps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const
+const semantic = [
+  'background',
+  'subtle',
+  'muted',
   'foreground',
+  'foreground-muted',
+  'foreground-subtle',
+  'foreground-disabled',
+  'foreground-inverse',
+  'border',
+  'border-subtle',
+  'border-strong',
+  'card',
+  'card-border',
+  'modal',
+  'modal-overlay',
+  'surface',
+  'surface-raised',
+  'ring',
 ] as const
-const semanticColors = ['main', 'inverted', 'subtle'] as const
 
 const twrncThemeColors: StrMap<StrMap<string>> = {}
 for (const color of colors) {
@@ -40,7 +41,7 @@ for (const color of colors) {
   }
   twrncThemeColors[color].DEFAULT = `var(--${color}-500)`
 }
-for (const color of semanticColors) {
+for (const color of semantic) {
   twrncThemeColors[color] = {
     DEFAULT: `var(--${color})`,
   }
@@ -49,7 +50,7 @@ for (const color of semanticColors) {
 export type ThemeVariables = {
   [k in `--${(typeof colors)[number]}-${(typeof steps)[number]}`]: string
 } & {
-  [k in `--${(typeof semanticColors)[number]}`]: string
+  [k in `--${(typeof semantic)[number]}`]: string
 }
 
 export const twrncConfig: TwConfig = {
@@ -60,10 +61,12 @@ export const twrncConfig: TwConfig = {
   },
 }
 
-export const validateThemeVariables = (variables: StrMap<string>) => {
+export const validateThemeVariables = (t: ThemeConfig) => {
   if (process.env.NODE_ENV === 'production') {
     return
   }
+
+  const variables = t.variables as StrMap<string>
 
   const invalidOrMissing = []
   const valid: StrMap<boolean> = {}
@@ -79,7 +82,7 @@ export const validateThemeVariables = (variables: StrMap<string>) => {
     }
   }
 
-  for (const color of semanticColors) {
+  for (const color of semantic) {
     const k = `--${color}`
     valid[k] = true
 
@@ -99,5 +102,5 @@ export const validateThemeVariables = (variables: StrMap<string>) => {
   }
 
   const keys = invalidOrMissing.join(', ')
-  console.error(`Invalid or missing theme variables: ${keys}`)
+  console.error(`Theme ${t.name} invalid or missing variables: ${keys}`)
 }

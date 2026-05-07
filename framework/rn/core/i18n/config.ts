@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import i18next from 'i18next'
 import { initReactI18next } from 'react-i18next/initReactI18next'
 

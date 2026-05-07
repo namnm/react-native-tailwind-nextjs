@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 // this file will also be used in babel plugin
 // twrnc and platform specifics will be passed through options
 
@@ -71,28 +66,28 @@ export const classNameToNative = (options: Options): ClassNameNative => {
     const s = omitEmptyClassName(twrnc(className))
 
     if (typeof s === 'object' && s) {
-      const themeValues: ClassNameWithVariable[] = []
+      const variables: ClassNameWithVariable[] = []
       const regularStyle: StrMap = {}
       for (const [k, v] of Object.entries(s)) {
         if (typeof v === 'string' && v.startsWith('var(') && v.endsWith(')')) {
-          const varName = v.slice(4, -1).trim()
-          themeValues.push({
+          const variable = v.slice(4, -1).trim()
+          variables.push({
             key: k,
-            variable: varName,
+            variable,
           })
         } else {
           regularStyle[k] = v
         }
       }
 
-      if (themeValues.length > 0) {
+      if (variables.length > 0) {
         const hasRegularStyle = Object.keys(regularStyle).length > 0
-        if (themeValues.length === 1 && !hasRegularStyle) {
-          style = themeValues[0]
+        if (variables.length === 1 && !hasRegularStyle) {
+          style = variables[0]
         } else if (hasRegularStyle) {
-          style = [regularStyle, ...themeValues]
+          style = [regularStyle, ...variables]
         } else {
-          style = themeValues
+          style = variables
         }
       } else {
         style = regularStyle
@@ -201,7 +196,7 @@ const stripNative = [
   /^hover:/,
   /^group-[\w-]*hover:/,
   /^peer-[\w-]*hover:/,
-  /^cursor-pointer$/,
+  /^cursor-/,
 ]
 extraTwrnc.push(options => {
   const { platform, className } = options
@@ -665,4 +660,34 @@ extraTwrnc.push(options => {
   return {
     resizeMode: striped,
   }
+})
+
+// alpha color
+extraTwrnc.push(options => {
+  const { className, onUnknown } = options
+  const matches = /(.+)\/(\d+)$/.exec(className)
+  if (!matches) {
+    return
+  }
+  const a = matches[2]
+  if (a.startsWith('0') && a !== '0') {
+    return onUnknown(className)
+  }
+  const alpha = Number(a) / 100
+  if (alpha > 1) {
+    return onUnknown(className)
+  }
+  const color = matches[1]
+  const style = classNameToNative({
+    ...options,
+    className: color,
+  })
+  if (!style || Array.isArray(style)) {
+    return onUnknown(className)
+  }
+  if (!('variable' in style)) {
+    return
+  }
+  style.alpha = alpha
+  return style
 })

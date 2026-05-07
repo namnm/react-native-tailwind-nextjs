@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { clsx } from '@/rn/core/tw/clsx'
 import { createClassNameComponentOptions } from '@/rn/core/tw/lib/create-class-name-component-options'
 import type { StrMap } from '@/shared/ts-utils'

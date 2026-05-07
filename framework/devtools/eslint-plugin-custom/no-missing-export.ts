@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import * as tsParser from '@typescript-eslint/parser'
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 
@@ -135,7 +130,7 @@ const collectExports = (program: TSESTree.Program) => {
   const set = new Set<string>()
   for (const node of program.body) {
     if (node.type === 'ExportAllDeclaration') {
-      // export * from '...' — cannot statically know names, skip comparison
+      // export * from '...' - cannot statically know names, skip comparison
       return null
     }
     if (node.type === 'ExportDefaultDeclaration') {
@@ -145,7 +140,13 @@ const collectExports = (program: TSESTree.Program) => {
     if (node.type !== 'ExportNamedDeclaration') {
       continue
     }
+    if (node.exportKind === 'type') {
+      continue
+    }
     for (const spec of node.specifiers) {
+      if (spec.exportKind === 'type') {
+        continue
+      }
       const exported = spec.exported
       set.add(exported.type === 'Identifier' ? exported.name : exported.value)
     }

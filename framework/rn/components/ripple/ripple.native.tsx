@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { useEffect } from 'react'
 import type { ViewStyle } from 'react-native'
 import {
@@ -23,7 +18,7 @@ type RippleNativeProps = RippleProps & {
   style: ViewStyle
 }
 
-export const Ripple = (props: RippleNativeProps) => {
+export const Ripple = ({ className, ...props }: RippleNativeProps) => {
   const scale = useSharedValue(0)
   const opacity = useSharedValue(1)
 
@@ -49,7 +44,7 @@ export const Ripple = (props: RippleNativeProps) => {
     <View
       {...props}
       pointerEvents='none'
-      className={['absolute', rippleDefaultBackground, props.className]}
+      className={['absolute', rippleDefaultBackground, className]}
       reanimatedStyle={animation}
     />
   )

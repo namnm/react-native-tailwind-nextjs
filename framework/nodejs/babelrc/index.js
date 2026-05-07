@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 /** @typedef {import('@babel/core').PluginTarget} PluginTarget */
 /** @typedef {import('@babel/core').TransformOptions} TransformOptions */
 

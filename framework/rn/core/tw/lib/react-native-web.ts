@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { ClassName } from '@/rn/core/tw/class-name'
 import { clsx } from '@/rn/core/tw/clsx'
 import { tw } from '@/rn/core/tw/tw'

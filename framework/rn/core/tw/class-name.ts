@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { ImageStyle, TextStyle, ViewStyle } from 'react-native'
 import type {
   CSSAnimationProperties,
@@ -40,6 +35,7 @@ export type ClassNameWithSelector = {
 }
 export type ClassNameWithVariable = {
   variable: string
+  alpha?: number
   key: string
 }
 export type ClassNameNativeSingle =

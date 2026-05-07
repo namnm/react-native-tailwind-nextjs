@@ -1,13 +1,7 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 'use client'
 
-import EventEmitter from 'eventemitter3'
 import BrowserCookies from 'js-cookie'
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 
 import {
   getAvailableThemes,
@@ -17,25 +11,29 @@ import {
   toValidTheme,
 } from '@/rn/core/theme/config'
 
-const emitter = new EventEmitter()
-const cookieTheme = BrowserCookies.get(themeCookieKey)
-
+let initialized = false
 // toValidTheme is only correct after initTheme is called
 // so we set it undefined here and let useTheme handle it after initTheme is called
-let initialTheme: string | undefined = undefined
+let currentTheme: string | undefined = undefined
+const subscribers = new Set<() => void>()
 
-export const useTheme = () => {
-  const [theme, setTheme] = useState(initialTheme || toValidTheme(cookieTheme))
-
-  useEffect(() => {
-    emitter.on('change', setTheme)
-    return () => {
-      emitter.off('change', setTheme)
-    }
-  }, [setTheme])
-
-  return theme
+const subscribe = (cb: () => void) => {
+  subscribers.add(cb)
+  return () => subscribers.delete(cb)
 }
+
+const getSnapshot = () => {
+  if (!initialized) {
+    initialized = true
+    currentTheme = toValidTheme(BrowserCookies.get(themeCookieKey))
+  }
+  return currentTheme
+}
+// server can also resolve this using cookie
+const getSnapshotServer = getSnapshot
+
+export const useTheme = () =>
+  useSyncExternalStore(subscribe, getSnapshot, getSnapshotServer)
 
 export const useSetTheme = () => (v: string | undefined) => {
   const list = document.documentElement.classList
@@ -56,6 +54,6 @@ export const useSetTheme = () => (v: string | undefined) => {
     BrowserCookies.remove(themeCookieKey)
   }
 
-  initialTheme = v
-  emitter.emit('change', v)
+  currentTheme = v
+  subscribers.forEach(cb => cb())
 }

@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { PluginPass, Visitor } from '@babel/core'
 import { z } from 'zod'
 
@@ -32,13 +27,13 @@ export const createVisitor = ({
   // use program path to get plugin pass and perform some checks before traverse
   // also prioritize this plugin over others such as react compiler
   Program: (programPath, pluginPass) => {
-    const { extractOutputPath, twrncConfig } = pluginPassOptsSchema.parse(
-      pluginPass.opts,
-    )
     if (!shouldTranspile(pluginPass.filename)) {
       return
     }
 
+    const { extractOutputPath, twrncConfig } = pluginPassOptsSchema.parse(
+      pluginPass.opts,
+    )
     const o: TraverseOptions = {
       extractOutputPath,
       twrncConfig,

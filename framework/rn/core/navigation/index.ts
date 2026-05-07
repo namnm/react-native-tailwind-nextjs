@@ -1,13 +1,9 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { headers } from 'next-unchecked/headers'
 import { cache } from 'react'
 
 import { useCurrentLocaleUntyped } from '@/rn/core/i18n'
 import { urlHeaderKey } from '@/rn/core/navigation/config'
+import { normalizePathname } from '@/rn/core/utils/normalize-pathname'
 import { qsParse } from '@/shared/qs'
 
 export const useRoute = cache(async () => {
@@ -20,7 +16,7 @@ export const useRoute = cache(async () => {
   const prefix = `/${locale}`
   let pathname = url.pathname
   if (pathname.startsWith(prefix)) {
-    pathname = pathname.replace(prefix, '')
+    pathname = normalizePathname(pathname.replace(prefix, ''))
   }
   let query = undefined
   const search = url.search.slice(0, 1)

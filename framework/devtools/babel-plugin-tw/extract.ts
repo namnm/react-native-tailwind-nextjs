@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { writeTwExtractOutput } from '@/devtools/babel-plugin-tw/lib/config'
 import type { Ctx } from '@/devtools/babel-plugin-tw/lib/context'
 import { generateMinifiedClassName } from '@/devtools/babel-plugin-tw/lib/generate-minified-class-name'

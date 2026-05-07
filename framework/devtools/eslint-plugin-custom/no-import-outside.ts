@@ -1,9 +1,4 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
-import type { TSESLint } from '@typescript-eslint/utils'
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 
 import { path } from '@/nodejs/path'
 
@@ -67,24 +62,26 @@ export const noImportOutside: TSESLint.RuleModule<
     const aliasPrefix = `${alias}/`
     const importPrefix = `${aliasPrefix}${dirs[i]}/`
 
+    const dir = importPrefix.replace(/\/+$/, '')
+
+    const check = (src: TSESTree.StringLiteral | null) => {
+      if (!src) {
+        return
+      }
+      const importPath = src.value
+      if (
+        !importPath.startsWith(aliasPrefix) ||
+        importPath.startsWith(importPrefix)
+      ) {
+        return
+      }
+      c.report({ node: src, messageId: 'noImportOutside', data: { dir } })
+    }
+
     return {
-      ImportDeclaration: n => {
-        const importPath = n.source.value
-        if (
-          !importPath.startsWith(aliasPrefix) ||
-          importPath.startsWith(importPrefix)
-        ) {
-          return
-        }
-        const dir = importPrefix.replace(/\/+$/, '')
-        c.report({
-          node: n.source,
-          messageId: 'noImportOutside',
-          data: {
-            dir,
-          },
-        })
-      },
+      ImportDeclaration: n => check(n.source),
+      ExportNamedDeclaration: n => check(n.source),
+      ExportAllDeclaration: n => check(n.source),
     }
   },
 }

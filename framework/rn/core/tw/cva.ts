@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import { clsx } from '@/rn/core/tw/clsx'
 import { set } from '@/shared/lodash'
 import type { StrMap } from '@/shared/ts-utils'
@@ -34,7 +29,6 @@ type CvaOptions<Map, A extends Attrs<Map>> = {
   className?: string
   classNames?: Map
   attributes?: A
-  defaultVariant?: VariantOptions<Map, A>
   compoundVariants?: CompoundVariant<Map, A>[]
 }
 type Cva = <Map extends StrMap<string>, A extends Attrs<Map>>(
@@ -44,7 +38,7 @@ type Cva = <Map extends StrMap<string>, A extends Attrs<Map>>(
 export type Variant<Fn extends GetCva<any, any>> = Parameters<Fn>[0]
 
 export const cva: Cva =
-  ({ className, classNames, attributes, defaultVariant, compoundVariants }) =>
+  ({ className, classNames, attributes, compoundVariants }) =>
   variant => {
     const map: StrMap = {}
     const rootKey = ''
@@ -52,24 +46,21 @@ export const cva: Cva =
     pushClassName(map, rootKey, className)
     pushClassNames(map, classNames)
 
-    let variantWithDefault: typeof defaultVariant = undefined
-    if (defaultVariant) {
-      variantWithDefault = { ...defaultVariant }
-    }
+    let computedVariant: StrMap | undefined = undefined
     if (variant) {
-      if (!variantWithDefault) {
-        variantWithDefault = {}
+      if (!computedVariant) {
+        computedVariant = {}
       }
       for (const [k, v] of Object.entries(variant)) {
         if (v === undefined || v === null) {
           continue
         }
-        set(variantWithDefault, k, v)
+        set(computedVariant, k, v)
       }
     }
 
-    if (variantWithDefault) {
-      for (const [k, v] of Object.entries(variantWithDefault)) {
+    if (computedVariant) {
+      for (const [k, v] of Object.entries(computedVariant)) {
         const attr = attributes?.[k]?.[v as string]
         if (!attr) {
           continue
@@ -88,7 +79,7 @@ export const cva: Cva =
         } of compoundVariants) {
           let match = undefined
           for (const [k2, v2] of Object.entries(compound)) {
-            if (variantWithDefault[k2] !== v2) {
+            if (computedVariant[k2] !== v2) {
               match = false
             } else if (match === undefined) {
               match = true

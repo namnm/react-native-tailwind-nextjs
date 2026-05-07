@@ -1,14 +1,10 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import type { ESLint } from 'eslint'
 
 import { enforceUseClient } from '@/devtools/eslint-plugin-custom/enforce-use-client'
 import { errName } from '@/devtools/eslint-plugin-custom/err-name'
 import { noAccessProperty } from '@/devtools/eslint-plugin-custom/no-access-property'
 import { noImportDefault } from '@/devtools/eslint-plugin-custom/no-import-default'
+import { noImportInvalidVariant } from '@/devtools/eslint-plugin-custom/no-import-invalid-variant'
 import { noImportOutside } from '@/devtools/eslint-plugin-custom/no-import-outside'
 import { noJsonStringify } from '@/devtools/eslint-plugin-custom/no-json-stringify'
 import { noMissingExport } from '@/devtools/eslint-plugin-custom/no-missing-export'
@@ -27,6 +23,7 @@ export const customPlugin = {
     'err-name': errName,
     'no-access-property': noAccessProperty,
     'no-import-default': noImportDefault,
+    'no-import-invalid-variant': noImportInvalidVariant,
     'no-import-outside': noImportOutside,
     'no-json-stringify': noJsonStringify,
     'no-missing-export': noMissingExport,

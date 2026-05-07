@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2025-2026 nongdan.dev
- * See LICENSE file in the project root for full license information.
- */
-
 import enCommon from '#/i18n/labels/en/common.json'
 import enHome from '#/i18n/labels/en/home.json'
 import jaCommon from '#/i18n/labels/ja/common.json'
