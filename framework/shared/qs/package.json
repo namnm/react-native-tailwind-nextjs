@@ -11,6 +11,6 @@
     "qs": "6.15.1"
   },
   "devDependencies": {
-    "@types/qs": "6.15.0"
+    "@types/qs": "6.15.1"
   }
 }

@@ -117,7 +117,7 @@ export class Log {
     const color = this.getColorFn(lv)
     msg = this.colorize(msg, bold)
     msg = this.colorize(msg, color)
-    const parts = []
+    const parts: string[] = []
     if (!this.minimal) {
       const timestamp = this.getTimestamp()
       const level = this.getLabel(lv)

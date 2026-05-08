@@ -2,6 +2,8 @@ import qs from 'qs'
 
 import type { Falsish } from '@/shared/ts-utils'
 
+export type { ParsedQs } from 'qs'
+
 type Options = Omit<qs.IStringifyOptions, 'sort'>
 
 const sort = (a: string, b: string) => a.localeCompare(b)

@@ -77,7 +77,7 @@ export const cva: Cva =
           classNames: compoundClassNames,
           ...compound
         } of compoundVariants) {
-          let match = undefined
+          let match: boolean | undefined = undefined
           for (const [k2, v2] of Object.entries(compound)) {
             if (computedVariant[k2] !== v2) {
               match = false

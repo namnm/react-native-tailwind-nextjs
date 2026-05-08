@@ -41,7 +41,7 @@ export const useRipple = (props: RippleProps) => {
         const id = ulid()
         setRippleData(prev => [...prev, { id, x: cx, y: cy, size: rippleSize }])
 
-        const t = setTimeout(() => {
+        const t = window.setTimeout(() => {
           setRippleData(prev => prev.filter(r => r.id !== id))
         }, rippleDurationMs + 17)
 

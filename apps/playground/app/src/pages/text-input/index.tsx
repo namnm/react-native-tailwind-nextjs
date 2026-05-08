@@ -1,10 +1,10 @@
+import { PasswordInput } from '@/rn/components/input/password-input'
 import { TextInput } from '@/rn/components/input/text-input'
 import { H1, Span } from '@/rn/components/text'
 import { ScrollView } from '@/rn/core/components/scroll-view'
 import { View } from '@/rn/core/components/view'
 import { useSafeAreaPadding } from '@/rn/core/responsive/use-safe-area'
 import { NavLayout } from '#/components/nav-layout'
-import { PasswordInput } from '@/rn/components/input/password-input'
 
 const appearances = ['outlined', 'filled', 'ghost', 'underlined'] as const
 const sizes = ['sm', 'md', 'lg'] as const

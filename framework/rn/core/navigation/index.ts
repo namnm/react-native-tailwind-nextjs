@@ -4,6 +4,7 @@ import { cache } from 'react'
 import { useCurrentLocaleUntyped } from '@/rn/core/i18n'
 import { urlHeaderKey } from '@/rn/core/navigation/config'
 import { normalizePathname } from '@/rn/core/utils/normalize-pathname'
+import type { ParsedQs } from '@/shared/qs'
 import { qsParse } from '@/shared/qs'
 
 export const useRoute = cache(async () => {
@@ -18,7 +19,7 @@ export const useRoute = cache(async () => {
   if (pathname.startsWith(prefix)) {
     pathname = normalizePathname(pathname.replace(prefix, ''))
   }
-  let query = undefined
+  let query: ParsedQs | undefined = undefined
   const search = url.search.slice(0, 1)
   if (search) {
     query = qsParse(search)

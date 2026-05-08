@@ -8,12 +8,12 @@
     "pnpm": ">=10"
   },
   "dependencies": {
-    "@eslint/compat": "2.0.5",
-    "@eslint/config-helpers": "0.5.5",
+    "@eslint/compat": "2.1.0",
+    "@eslint/config-helpers": "0.6.0",
     "@eslint/js": "10.0.1",
-    "@typescript-eslint/eslint-plugin": "8.59.1",
-    "@typescript-eslint/parser": "8.59.0",
-    "@typescript-eslint/utils": "8.59.1",
+    "@typescript-eslint/eslint-plugin": "8.59.2",
+    "@typescript-eslint/parser": "8.59.2",
+    "@typescript-eslint/utils": "8.59.2",
     "eslint": "10.3.0",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-prefer-arrow": "1.2.3",
@@ -23,7 +23,7 @@
     "eslint-plugin-simple-import-sort": "13.0.0",
     "eslint-plugin-unicorn": "64.0.0",
     "globals": "17.6.0",
-    "typescript-eslint": "8.59.0"
+    "typescript-eslint": "8.59.2"
   },
   "devDependencies": {
     "@types/eslint": "9.6.1"

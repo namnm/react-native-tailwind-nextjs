@@ -13,7 +13,7 @@ export const useButtonMouseDown = (setPressing: Function) => {
   const jsx = useParentDOM(dom => {
     const down = (e: MouseEvent) => {
       if (r.current) {
-        clearTimeout(r.current)
+        window.clearTimeout(r.current)
         r.current = 0
       }
       if (!isClickDOM(e, dom)) {
@@ -23,7 +23,7 @@ export const useButtonMouseDown = (setPressing: Function) => {
     }
 
     const up = () => {
-      r.current = setTimeout(
+      r.current = window.setTimeout(
         () => setPressing(false),
         transitionDurationDefault,
       )
@@ -36,7 +36,7 @@ export const useButtonMouseDown = (setPressing: Function) => {
       dom.removeEventListener('mousedown', down)
       window.removeEventListener('mouseup', up)
       if (r.current) {
-        clearTimeout(r.current)
+        window.clearTimeout(r.current)
         r.current = 0
       }
     }

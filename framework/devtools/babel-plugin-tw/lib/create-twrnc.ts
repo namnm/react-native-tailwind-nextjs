@@ -2,14 +2,14 @@ import type { Platform } from 'react-native'
 import type { TwConfig } from 'twrnc'
 import { create } from 'twrnc/create'
 
-import packageJson from '@/devtools/babel-plugin-tw/package.json'
+import packageJson from '../../../../package.json'
 
 // can not import twrnc directly as it imports react-native which is not available in nodejs babel env
 export const createTwrnc = (
   platform: Platform['OS'],
   twrncConfig: TwConfig,
 ) => {
-  const rnVersionStr = packageJson.dependencies['react-native']
+  const rnVersionStr = packageJson.pnpm.overrides['react-native']
   const matches = /(\d+)\.(\d+)\.(\d+)/.exec(rnVersionStr)
   if (!matches) {
     throw new Error('Can not parse react native version')

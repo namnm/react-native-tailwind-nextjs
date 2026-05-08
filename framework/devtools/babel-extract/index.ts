@@ -1,6 +1,6 @@
 import { codeFrameColumns } from '@babel/code-frame'
 import * as parser from '@babel/parser'
-import type { NodePath } from '@babel/traverse'
+import type { NodePath, Visitor } from '@babel/traverse'
 import traverse from '@babel/traverse'
 
 import { twExtract } from '@/devtools/babel-plugin-tw/extract'
@@ -9,6 +9,10 @@ import { globSync } from '@/nodejs/glob'
 
 type Options = {
   twExtractOutputPath: string
+}
+type Extractor = {
+  visitor: Visitor<any>
+  done: () => void
 }
 
 export const extract = ({ twExtractOutputPath }: Options) => {
@@ -26,9 +30,9 @@ export const extract = ({ twExtractOutputPath }: Options) => {
     return new Error(`${msg}\n${frame}`)
   }
 
-  const extracts = []
+  const extractors: Extractor[] = []
   if (process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES) {
-    extracts.push(twExtract({ err, twExtractOutputPath }))
+    extractors.push(twExtract({ err, twExtractOutputPath }))
   }
 
   const paths = globSync('**/*.{ts,tsx}')
@@ -44,12 +48,12 @@ export const extract = ({ twExtractOutputPath }: Options) => {
       opts: {},
     }
     const ast = parser.parse(currentCode, parserOption)
-    for (const { visitor } of extracts) {
+    for (const { visitor } of extractors) {
       traverse(ast, visitor as any, undefined, pluginPass)
     }
   }
 
-  for (const { done } of extracts) {
+  for (const { done } of extractors) {
     done()
   }
 }

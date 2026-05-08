@@ -68,7 +68,7 @@ export const validateThemeVariables = (t: ThemeConfig) => {
 
   const variables = t.variables as StrMap<string>
 
-  const invalidOrMissing = []
+  const invalidOrMissing: string[] = []
   const valid: StrMap<boolean> = {}
 
   for (const color of colors) {

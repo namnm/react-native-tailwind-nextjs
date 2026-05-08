@@ -35,7 +35,7 @@ export const transpileCva = (ctx: Ctx, path: NodePath<t.CallExpression>) => {
   }
 
   let jsRoot: any = undefined
-  let jsRootKey = undefined
+  let jsRootKey: string | undefined = undefined
   if (className) {
     jsRoot = ctx.transpileClassName(className)
     jsRootKey = 'className'
