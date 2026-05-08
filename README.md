@@ -534,4 +534,4 @@ The `Link` component at `apps/playground/app/src/components/link.tsx` wraps the 
 
 ### License: MIT
 
-Contact me at [nam@nongdan.dev](mailto:nam@nongdan.dev)
+Contact me at [nam@namnm.com](mailto:nam@namnm.com)

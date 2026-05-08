@@ -669,7 +669,7 @@ extraTwrnc.push(options => {
   if (!matches) {
     return
   }
-  const a = matches[2]
+  const [, color, a] = matches
   if (a.startsWith('0') && a !== '0') {
     return onUnknown(className)
   }
@@ -677,7 +677,6 @@ extraTwrnc.push(options => {
   if (alpha > 1) {
     return onUnknown(className)
   }
-  const color = matches[1]
   const style = classNameToNative({
     ...options,
     className: color,
@@ -690,4 +689,21 @@ extraTwrnc.push(options => {
   }
   style.alpha = alpha
   return style
+})
+
+// z index
+extraTwrnc.push(options => {
+  const { className, onUnknown } = options
+  const matches = /^(-?)z-\[(\d+)\]$/.exec(className)
+  if (!matches) {
+    return
+  }
+  const [, negative, z] = matches
+  const zIndex = Number(z) * (negative ? -1 : 1)
+  if (z !== Math.abs(zIndex).toString()) {
+    return onUnknown(className)
+  }
+  return {
+    zIndex,
+  }
 })

@@ -39,6 +39,10 @@ describe('classNameToNative', () => {
   it('text-lg', () => e('text-lg', { fontSize: 18, lineHeight: 28 }))
   it('opacity-50', () => e('opacity-50', { opacity: 0.5 }))
   it('overflow-hidden', () => e('overflow-hidden', { overflow: 'hidden' }))
+  it('z-10', () => e('z-10', { zIndex: 10 }))
+  it('-z-10', () => e('-z-10', { zIndex: -10 }))
+  it('z-[999]', () => e('z-[999]', { zIndex: 999 }))
+  it('-z-[999]', () => e('-z-[999]', { zIndex: -999 }))
 
   // platform strip on native (omitEmptyClassName returns undefined for empty objects)
   it('web: stripped on native', () => e('web:flex', undefined))
