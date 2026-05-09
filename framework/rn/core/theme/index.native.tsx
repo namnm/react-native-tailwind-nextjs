@@ -3,7 +3,7 @@ import { createContext, useState } from 'react'
 
 import { themeCookieKey, toValidTheme } from '@/rn/core/theme/config'
 import { useSafeContext } from '@/rn/core/utils/use-safe-context'
-import { mmkv } from '@/rn/mmkv'
+import { storage } from '@/rn/storage'
 
 type ContextState = {
   v: string | undefined
@@ -15,7 +15,8 @@ const Context = createContext<ContextState | undefined>(undefined)
 // the init promise should be await before using other methods or providers
 let initialTheme: string | undefined = undefined
 export const initThemeNative = async () => {
-  initialTheme = toValidTheme(mmkv.getString(themeCookieKey))
+  const v = await storage.getItem(themeCookieKey)
+  initialTheme = toValidTheme(v)
 }
 
 export const useTheme = () => useSafeContext(Context).v
@@ -26,12 +27,12 @@ export const ThemeProviderNative = ({ children }: PropsWithChildren) => {
 
   const contextState: ContextState = {
     v: theme,
-    set: v => {
+    set: async v => {
       v = toValidTheme(v)
       if (v !== undefined) {
-        mmkv.set(themeCookieKey, v)
+        await storage.setItem(themeCookieKey, v)
       } else {
-        mmkv.remove(themeCookieKey)
+        await storage.removeItem(themeCookieKey)
       }
       initialTheme = v
       setTheme(v)

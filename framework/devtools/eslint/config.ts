@@ -1,6 +1,5 @@
-import { includeIgnoreFile } from '@eslint/compat'
 import type { ConfigWithExtends } from '@eslint/config-helpers'
-import { defineConfig } from '@eslint/config-helpers'
+import { defineConfig, includeIgnoreFile } from '@eslint/config-helpers'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import * as tsParser from '@typescript-eslint/parser'
 import * as importPlugin from 'eslint-plugin-import'
@@ -18,6 +17,7 @@ import { gitignorePath } from '@/nodejs/gitignore'
 import { globSync } from '@/nodejs/glob'
 import { path } from '@/nodejs/path'
 import { frameworkRoot } from '@/root'
+import type { StrMap } from '@/shared/ts-utils'
 
 const off = 0
 const warn = 1
@@ -44,16 +44,22 @@ type Alias = {
 }
 type Options = {
   dir: string
+  extraPlugins?: StrMap<string>
+  overriddenRules?: StrMap
   alias?: Alias[] | boolean
   ignoreShadowed?: boolean
+  ignoreFramework?: boolean
   tsProjectService?: boolean
 }
 
 export const config = ({
   dir,
+  extraPlugins,
+  overriddenRules,
   // use flags to esable those features since it can be slow
-  alias = !!process.env._ESLINT_ALIAS_GLOB,
+  alias = !!process.env._ESLINT_ALIAS,
   ignoreShadowed = !!process.env._ESLINT_IGNORE_SHADOWED,
+  ignoreFramework = !!process.env._ESLINT_IGNORE_FRAMEWORK,
   tsProjectService = !!process.env._ESLINT_TS_PROJECT_SERVICE,
 }: Options) => {
   const jsShadowed: string[] = []
@@ -74,6 +80,9 @@ export const config = ({
     '**/*.min.*',
     ...jsShadowed,
   ]
+  if (ignoreFramework) {
+    baseIgnores.push(`${frameworkRoot}/**`)
+  }
 
   const ignoresNonFixable = [
     ...baseIgnores,
@@ -88,6 +97,20 @@ export const config = ({
       exts: '{config,stories}',
     }),
   ]
+
+  const alreadyMergedRules: StrMap<boolean> = {}
+  const mergeRules = (rules: StrMap) => {
+    if (!overriddenRules) {
+      return rules
+    }
+    for (const k in rules) {
+      if (k in overriddenRules) {
+        rules[k] = overriddenRules[k]
+        alreadyMergedRules[k] = true
+      }
+    }
+    return rules
+  }
 
   const base: ConfigWithExtends = {
     files: [`**/*.${allExts}`],
@@ -113,8 +136,9 @@ export const config = ({
       'prefer-arrow': preferArrowPlugin,
       unicorn: unicornPlugin,
       custom: customPlugin,
+      ...extraPlugins,
     },
-    rules: {
+    rules: mergeRules({
       curly: [warn, 'all'],
       quotes: [warn, 'single', { avoidEscape: true }],
       'react/jsx-curly-brace-presence': warn,
@@ -157,12 +181,12 @@ export const config = ({
         },
       ],
       'import/enforce-node-protocol-usage': [warn, 'always'],
-    },
+    }),
   }
 
   const nonFixable: ConfigWithExtends = {
     ...base,
-    rules: {
+    rules: mergeRules({
       eqeqeq: [warn, 'always'],
       'no-return-assign': warn,
       'no-func-assign': warn,
@@ -210,7 +234,7 @@ export const config = ({
       'custom/no-nullish-coalescing': warn,
       'custom/no-use-state': off,
       'custom/no-void-union': off,
-    },
+    }),
   }
 
   const aliases: Alias[] = [
@@ -237,28 +261,28 @@ export const config = ({
   const noRelativeImport: ConfigWithExtends[] = aliases.map(d => ({
     ...base,
     files: base.files?.map(f => `${d.rootDir}/${f}`),
-    rules: {
+    rules: mergeRules({
       'custom/no-relative-import-paths': [
         warn,
         { allowSameFolder: false, ...d },
       ],
-    },
+    }),
   }))
   const noRelativeExport: ConfigWithExtends[] = aliases.map(d => ({
     ...base,
     files: base.files?.map(f => `${d.rootDir}/${f}`),
-    rules: {
+    rules: mergeRules({
       'custom/no-relative-export-paths': [warn, d],
-    },
+    }),
   }))
 
   const noDefaultExport: ConfigWithExtends = {
     ...base,
     ignores: ignoreDefaultExport,
-    rules: {
-      // TODO: not working in eslint 10, wait for package update
+    rules: mergeRules({
+      // TODO: not compatible eslint 10
       'import/no-default-export': off,
-    },
+    }),
   }
 
   let tsBase: ConfigWithExtends[] = []
@@ -275,15 +299,32 @@ export const config = ({
           tsconfigRootDir: p,
         },
       },
-      rules: {},
+      rules: mergeRules({
+        // no rule yet
+      }),
     }))
     tsNonFixable = tsBase.map(b => ({
       ...b,
       ignores: ignoresNonFixable,
-      rules: {
+      rules: mergeRules({
         '@typescript-eslint/no-unnecessary-condition': warn,
-      },
+      }),
     }))
+  }
+
+  if (overriddenRules) {
+    const unusedKeys = Object.keys(overriddenRules).filter(
+      k => !alreadyMergedRules[k],
+    )
+    if (unusedKeys.length) {
+      nonFixable.rules = {
+        ...nonFixable.rules,
+        ...unusedKeys.reduce<StrMap>((m, k) => {
+          m[k] = overriddenRules[k]
+          return m
+        }, {}),
+      }
+    }
   }
 
   return defineConfig(

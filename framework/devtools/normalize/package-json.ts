@@ -104,11 +104,11 @@ export const normalizePackageJson = async () => {
       scripts: packageJson.scripts,
       exports: packageJson.exports,
       engines,
-      ...keys.reduce((d, k) => {
+      ...keys.reduce<StrMap>((d, k) => {
         const v = packageJson[k]
         d[k] = v && JSON.parse(jsonStable(v))
         return d
-      }, {} as StrMap),
+      }, {}),
       ...omit(packageJson, [
         'name',
         'version',

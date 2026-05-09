@@ -8,7 +8,7 @@ import {
   darkModeToBolean,
 } from '@/rn/core/dark-mode/config'
 import { useSafeContext } from '@/rn/core/utils/use-safe-context'
-import { mmkv } from '@/rn/mmkv'
+import { storage } from '@/rn/storage'
 
 type ContextState = {
   v: boolean | undefined
@@ -19,7 +19,8 @@ const Context = createContext<ContextState | undefined>(undefined)
 // this promise should be await before using the below provider
 let initialDarkMode: boolean | undefined = undefined
 export const initDarkModeNative = async () => {
-  initialDarkMode = darkModeToBolean(mmkv.getString(darkModeCookieKey))
+  const v = await storage.getItem(darkModeCookieKey)
+  initialDarkMode = darkModeToBolean(v)
 }
 
 export const useDarkModeUser = () => useSafeContext(Context).v
@@ -30,13 +31,13 @@ export const DarkModeProviderNative = ({ children }: PropsWithChildren) => {
 
   const contextState: ContextState = {
     v: darkMode,
-    set: v => {
+    set: async v => {
       if (v === true) {
-        mmkv.set(darkModeCookieKey, darkModeEnabled)
+        await storage.setItem(darkModeCookieKey, darkModeEnabled)
       } else if (v === false) {
-        mmkv.set(darkModeCookieKey, darkModeDisabled)
+        await storage.setItem(darkModeCookieKey, darkModeDisabled)
       } else {
-        mmkv.remove(darkModeCookieKey)
+        await storage.removeItem(darkModeCookieKey)
       }
       initialDarkMode = v
       setDarkMode(v)

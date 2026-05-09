@@ -10,7 +10,7 @@ import {
   getLocaleUntyped,
   i18nCookieKey,
 } from '@/rn/core/i18n/config'
-import { mmkv } from '@/rn/mmkv'
+import { storage } from '@/rn/storage'
 
 export const useCurrentLocaleUntyped = () => {
   const { i18n } = useTranslation()
@@ -27,8 +27,8 @@ export const useTranslationUntyped = (namespace: string) =>
 
 export const initI18nNative = async () => {
   await getI18nPromise()
-  const v = mmkv.getString(i18nCookieKey)
-  const lang = getLangUntyped(v as any)
+  const v = await storage.getItem(i18nCookieKey)
+  const lang = getLangUntyped(v)
   i18next.changeLanguage(lang)
 }
 

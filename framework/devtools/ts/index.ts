@@ -1,17 +1,22 @@
 import { bin, binRequireResolve, cmd, exec } from '@/nodejs/exec'
 import { glob } from '@/nodejs/glob'
-import { resolvePath } from '@/nodejs/path'
+import { path } from '@/nodejs/path'
 import { repoRoot } from '@/root'
 
 export const ts = async () => {
-  const tsconfigFiles = await glob('**/tsconfig.json')
+  let tsconfigFiles = await glob('**/tsconfig.json')
+
+  if (process.env._TS_IGNORE_FRAMEWORK) {
+    const repo = path.join(repoRoot, 'tsconfig.json')
+    tsconfigFiles = tsconfigFiles.filter(v => v !== repo)
+  }
 
   const tsc = tsconfigFiles.map(async p =>
     cmd({
       bin: await bin(repoRoot, 'tsc'),
       args: [
         ['--noEmit'],
-        ['--project', await resolvePath(p)],
+        ['--project', p],
         //
       ],
       argsJoinUsingSpace: true,
@@ -24,7 +29,7 @@ export const ts = async () => {
       args: [
         ['--suppressError'],
         ['--at-least', '0'],
-        ['--project', await resolvePath(p)],
+        ['--project', p],
         //
       ],
       argsJoinUsingSpace: true,

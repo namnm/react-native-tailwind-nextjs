@@ -15,10 +15,10 @@ export class ResolveClientExtension {
   clients: StrMap<true>
   constructor(dir: string, clients: string[]) {
     this.alias = getAlias(dir)
-    this.clients = clients.reduce((m, a) => {
+    this.clients = clients.reduce<StrMap<true>>((m, a) => {
       m[a] = true
       return m
-    }, {} as StrMap<true>)
+    }, {})
   }
 
   apply = (resolver: Resolver) => {

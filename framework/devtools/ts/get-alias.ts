@@ -9,13 +9,13 @@ export const getAlias = (dir: string, { relative }: Options = {}) => {
   const tsconfig = require(path.join(dir, './tsconfig.json'))
   const paths: StrMap<string[]> = tsconfig.compilerOptions.paths
 
-  return Object.entries(paths).reduce((m, a) => {
+  return Object.entries(paths).reduce<StrMap<string>>((m, a) => {
     // the returned value will not have / at the end:
     // { '@': 'abs/path' }
     const [k, v] = [a[0], a[1][0]].map(p => p.replace(/\/\*$/, ''))
     m[k] = relative ? v : path.join(dir, v)
     return m
-  }, {} as StrMap<string>)
+  }, {})
 }
 
 export const getInAlias = (importPath: string, alias: StrMap<string>) => {

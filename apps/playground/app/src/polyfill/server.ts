@@ -1,5 +1,3 @@
+import '#/shared'
 import '@/rn/core/polyfill/react-native-web'
-import '#/polyfill/init-i18n'
-import '#/polyfill/init-twrnc-config'
 import '#/polyfill/init-minified-class-names'
-import '#/polyfill/init-theme'

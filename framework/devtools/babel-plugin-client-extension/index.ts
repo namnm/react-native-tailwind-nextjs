@@ -42,10 +42,10 @@ export const clientExtensionPlugin = (api: ConfigAPI): PluginObj => {
           return
         }
 
-        const clientMap = clients.reduce((m, a) => {
+        const clientMap = clients.reduce<StrMap<true>>((m, a) => {
           m[a] = true
           return m
-        }, {} as StrMap<true>)
+        }, {})
         const currentFilename = pluginPass.filename as string
 
         programPath.traverse({
