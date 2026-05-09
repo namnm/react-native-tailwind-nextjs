@@ -3,9 +3,12 @@
 // shamelessly copied from react-native-web-linear-gradient
 
 import { useState } from 'react'
+import type { LinearGradientProps as LinearGradientPropsWocn } from 'react-native-linear-gradient'
 
-import type { LinearGradientProps } from '@/rn/components/linear-gradient/index.native'
+import type { ViewProps } from '@/rn/core/components/view'
 import { View } from '@/rn/core/components/view'
+
+export type LinearGradientProps = LinearGradientPropsWocn & ViewProps
 
 export const LinearGradient = ({
   start = { x: 0.5, y: 0 },
@@ -15,7 +18,6 @@ export const LinearGradient = ({
   useAngle = false,
   angle = 0,
   style,
-  children,
   onLayout,
   angleCenter,
   ...props
@@ -33,15 +35,13 @@ export const LinearGradient = ({
     onLayout?.(e)
   }
 
-  const cssAngle = useAngle
-    ? `${angle}deg`
-    : `${
-        Math.atan2(
-          size.width * (end.y - start.y),
-          size.height * (end.x - start.x),
-        ) +
-        Math.PI / 2
-      }rad`
+  const rad = () =>
+    Math.atan2(
+      size.width * (end.y - start.y),
+      size.height * (end.x - start.x),
+    ) +
+    Math.PI / 2
+  const cssAngle = useAngle ? `${angle}deg` : `${rad()}rad`
   const cssColors = colors
     .map((c, i) => {
       const location = locations[i]
@@ -57,8 +57,6 @@ export const LinearGradient = ({
       {...props}
       style={[style, bgStyle as any]}
       onLayout={onLayoutComposed}
-    >
-      {children}
-    </View>
+    />
   )
 }
