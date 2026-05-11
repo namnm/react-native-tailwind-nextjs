@@ -11,6 +11,6 @@ export type TextProps = TextPropsWocn & {
   className?: ClassName
 }
 
-export const Text: FC<TextProps> = createClassNameComponent({
+export const TextWithoutContext: FC<TextProps> = createClassNameComponent({
   TextWocn,
 })

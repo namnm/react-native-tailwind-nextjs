@@ -10,6 +10,6 @@ import type { ScrollViewPropsWocn } from '@/rn/core/components/without-class-nam
 
 export const ScrollViewWocn = (props: ScrollViewPropsWocn) => {
   props = normalizePropsNative(props)
-  const Component: any = isReanimated(props) ? Animated.ScrollView : ScrollView
+  const Component = isReanimated(props) ? Animated.ScrollView : ScrollView
   return renderReanimated(Component, props)
 }

@@ -2,11 +2,11 @@
 
 import { useTextStyle } from '@/rn/components/text/text-style-context'
 import type { TextProps } from '@/rn/core/components/text'
-import { Text as TextWoctx } from '@/rn/core/components/text'
+import { TextWithoutContext } from '@/rn/core/components/text'
 
-const Text = ({ className, ...props }: TextProps) => {
+export const Text = ({ className, ...props }: TextProps) => {
   const ctx = useTextStyle()
-  return <TextWoctx {...props} className={[ctx, className]} />
+  return <TextWithoutContext {...props} className={[ctx, className]} />
 }
 
 export const H1 = ({ className, ...props }: TextProps) => (

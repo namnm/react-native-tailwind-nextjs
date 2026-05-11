@@ -12,7 +12,7 @@ const styleProps = ['resizeMode']
 
 export const ImageWocn = ({ src, ...props }: ImagePropsWocn) => {
   props = styleToProps(props, styleProps)
-  const Component: any = isReanimated(props) ? AnimatedImage : Image
+  const Component = isReanimated(props) ? AnimatedImage : Image
 
   const ty = typeof src
   const source = ty === 'string' || ty === 'number' ? { uri: src } : src

@@ -10,6 +10,6 @@ import type { FlatListPropsWocn } from '@/rn/core/components/without-class-name/
 
 export const FlatListWocn = (props: FlatListPropsWocn<any>) => {
   props = normalizePropsNative(props)
-  const Component: any = isReanimated(props) ? Animated.FlatList : FlatList
+  const Component = isReanimated(props) ? Animated.FlatList : FlatList
   return renderReanimated(Component, props)
 }

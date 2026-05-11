@@ -10,7 +10,7 @@ import type { PressablePropsWocn } from '@/rn/core/components/without-class-name
 
 export const PressableWocn = (props: PressablePropsWocn) => {
   props = normalizePropsNative(props)
-  const Component: any = isReanimated(props) ? AnimatedPressable : Pressable
+  const Component = isReanimated(props) ? AnimatedPressable : Pressable
   return renderReanimated(Component, props)
 }
 

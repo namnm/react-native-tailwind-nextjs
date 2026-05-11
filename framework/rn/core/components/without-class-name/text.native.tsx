@@ -12,7 +12,7 @@ const styleProps = ['numberOfLines', 'selectable']
 
 export const TextWocn = (props: TextPropsWocn) => {
   props = normalizePropsNative(props, styleProps)
-  const Component: any = isReanimated(props) ? Animated.Text : Text
+  const Component = isReanimated(props) ? Animated.Text : Text
 
   return renderReanimated(Component, {
     suppressHighlighting: true,

@@ -14,7 +14,7 @@ const styleProps = ['placeholderTextColor', 'caretHidden']
 
 export const InputWocn = (props: InputPropsWocn) => {
   props = normalizePropsNative(props, styleProps)
-  const Component: any = isReanimated(props) ? AnimatedInput : TextInput
+  const Component = isReanimated(props) ? AnimatedInput : TextInput
   return renderReanimated(Component, props)
 }
 

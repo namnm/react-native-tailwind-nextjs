@@ -4,7 +4,7 @@ import { Children, createContext, isValidElement } from 'react'
 
 import { TextStyleProvider } from '@/rn/components/text/text-style-context'
 import type { TextProps } from '@/rn/core/components/text'
-import { Text } from '@/rn/core/components/text'
+import { TextWithoutContext } from '@/rn/core/components/text'
 import type { ViewProps } from '@/rn/core/components/view'
 import { View } from '@/rn/core/components/view'
 import type { Variant } from '@/rn/core/tw/cva'
@@ -147,14 +147,14 @@ const Icon = ({ className, ...props }: ViewProps) => {
 
 const Title = ({ className, ...props }: TextProps) => {
   const { cn } = useAlert()
-  return <Text {...props} className={[cn.title, className]} />
+  return <TextWithoutContext {...props} className={[cn.title, className]} />
 }
 
 // description
 
 const Description = ({ className, ...props }: TextProps) => {
   const { cn } = useAlert()
-  return <Text {...props} className={[cn.description, className]} />
+  return <TextWithoutContext {...props} className={[cn.description, className]} />
 }
 
 // action

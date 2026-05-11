@@ -13,7 +13,7 @@ import type { GridStyle, GridTrack } from '@/rn/core/tw/class-name'
 
 export const ViewWocn = (props: ViewPropsWocn) => {
   props = normalizePropsNative(props)
-  const Component: any = isReanimated(props) ? Animated.View : View
+  const Component = isReanimated(props) ? Animated.View : View
   const { style } = props
   const rawStyle = style as GridStyle | undefined
   if (!rawStyle) {
