@@ -1,7 +1,7 @@
 'use client'
 
-import type { TextInputProps } from '@/rn/components/input/text-input'
-import { TextInput } from '@/rn/components/input/text-input'
+import type { TextInputProps } from '@/rn/components/input'
+import { TextInput } from '@/rn/components/input'
 
 export type NumberInputProps = TextInputProps
 

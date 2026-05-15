@@ -7,11 +7,7 @@ import {
   withTiming,
 } from 'react-native-reanimated'
 
-import type { RippleProps } from '@/rn/components/ripple/config'
-import {
-  rippleDefaultBackground,
-  rippleDurationMs,
-} from '@/rn/components/ripple/config'
+import type { RippleProps } from '@/rn/components/ripple/ripple'
 import { View } from '@/rn/core/components/view'
 
 type RippleNativeProps = RippleProps & {
@@ -26,11 +22,11 @@ export const Ripple = ({ className, ...props }: RippleNativeProps) => {
     scale.value = 0
     opacity.value = 1
     scale.value = withTiming(1, {
-      duration: rippleDurationMs,
+      duration: 1000,
       easing: Easing.out(Easing.ease),
     })
     opacity.value = withTiming(0, {
-      duration: rippleDurationMs,
+      duration: 1000,
       easing: Easing.out(Easing.ease),
     })
   }, [opacity, scale])
@@ -44,7 +40,7 @@ export const Ripple = ({ className, ...props }: RippleNativeProps) => {
     <View
       {...props}
       pointerEvents='none'
-      className={['absolute', rippleDefaultBackground, className]}
+      className={['absolute bg-[rgba(255,255,255,0.5)]', className]}
       reanimatedStyle={animation}
     />
   )

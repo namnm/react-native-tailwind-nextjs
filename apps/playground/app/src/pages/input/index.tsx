@@ -1,5 +1,5 @@
+import { TextInput } from '@/rn/components/input'
 import { PasswordInput } from '@/rn/components/input/password-input'
-import { TextInput } from '@/rn/components/input/text-input'
 import { H1, Span } from '@/rn/components/text'
 import { ScrollView } from '@/rn/core/components/scroll-view'
 import { View } from '@/rn/core/components/view'

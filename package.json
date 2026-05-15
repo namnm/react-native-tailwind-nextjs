@@ -22,7 +22,7 @@
     "tsconfig-paths": "4.2.0"
   },
   "devDependencies": {
-    "@types/node": "25.6.2",
+    "@types/node": "25.8.0",
     "typescript": "6.0.3"
   },
   "pnpm": {

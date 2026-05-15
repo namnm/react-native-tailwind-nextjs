@@ -4,14 +4,20 @@ import { useRef, useState } from 'react'
 
 import '@/rn/components/ripple/ripple.css'
 
-import type { RippleData, RippleProps } from '@/rn/components/ripple/config'
-import {
-  rippleDefaultBackground,
-  rippleDurationMs,
-} from '@/rn/components/ripple/config'
+import type { ClassName } from '@/rn/core/tw/class-name'
 import { clsx } from '@/rn/core/tw/clsx'
 import { isClickDOM, useParentDOM } from '@/rn/core/utils/dom'
 import { ulid } from '@/shared/ulidx'
+
+export type RippleProps = {
+  className?: ClassName
+}
+export type RippleData = {
+  id: string
+  x: number
+  y: number
+  size: number
+}
 
 export const Ripple = ({ className }: RippleProps) => {
   const timeoutsRef = useRef<number[]>([])
@@ -36,7 +42,7 @@ export const Ripple = ({ className }: RippleProps) => {
 
       const t = window.setTimeout(() => {
         setRippleData(prev => prev.filter(r => r.id !== id))
-      }, rippleDurationMs + 17)
+      }, 1000 + 17)
 
       timeoutsRef.current.push(t)
     }
@@ -52,13 +58,7 @@ export const Ripple = ({ className }: RippleProps) => {
     }
   })
 
-  const classNameString = clsx(
-    // it is difficult to write tailwind class name for complex css
-    // we will write css and put it here to get transpile reference
-    'ripple',
-    rippleDefaultBackground,
-    className,
-  ) as string
+  const classNameString = clsx('ripple', className) as string
 
   const ripples = rippleData.map(r => (
     <span

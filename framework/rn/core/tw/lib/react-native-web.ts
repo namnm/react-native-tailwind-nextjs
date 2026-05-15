@@ -59,7 +59,7 @@ type FlatList = Common &
     columnWrapper: boolean
   }>
 
-// use tw to capture all class names and support minified ones
+// use tw`` here to collect and map when class names are minified
 const map: StrMap<Function> = {
   Text: (d: Text) => [
     tw`relative m-0 inline list-none border-0 border-solid border-black bg-transparent p-0 text-start font-sans text-sm wrap-break-word whitespace-pre-wrap text-black no-underline`,

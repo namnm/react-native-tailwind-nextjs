@@ -8,12 +8,8 @@ import '../tailwind.css'
 import '@/rn/themes/all.css'
 
 import { useDarkModeUser } from '@/rn/core/dark-mode'
-import {
-  darkClassName,
-  lightClassName,
-  webClassName,
-} from '@/rn/core/dark-mode/config'
 import { useCurrentLangUntyped } from '@/rn/core/i18n'
+import { darkClassName, lightClassName, webClassName } from '@/rn/core/tailwind'
 import { useTheme } from '@/rn/core/theme'
 import { getThemeClassName } from '@/rn/core/theme/config'
 import { clsx } from '@/rn/core/tw/clsx'
@@ -27,6 +23,7 @@ export const App = async ({ children }: PropsWithChildren) => {
   ])
   const htmlClassName = clsx(
     // custom variant web: selector
+    // and global web class names
     webClassName,
     // theme
     theme,
@@ -43,6 +40,10 @@ export const App = async ({ children }: PropsWithChildren) => {
           content='width=device-width,initial-scale=1.0,viewport-fit=cover'
         />
       </head>
+      {/**
+       * need to render client enhancer on top so the client scripts can load
+       * before body content and others which depend on the client scripts
+       */}
       <ClientEnhancer />
       <body className='flex min-h-dvh w-full flex-col'>{children}</body>
     </html>

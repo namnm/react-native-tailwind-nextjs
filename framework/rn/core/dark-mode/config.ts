@@ -1,7 +1,6 @@
 import type { ColorSchemeName } from 'react-native'
 
 import type { ClassNameDarkModeState } from '@/rn/core/tw/class-name'
-import { tw } from '@/rn/core/tw/tw'
 import type { Falsish } from '@/shared/ts-utils'
 
 export const darkModeCookieKey = 'dark-mode'
@@ -36,9 +35,3 @@ export const toClassNameDarkModeState = (dark: DarkMode) => {
   state.light = !state.dark
   return state
 }
-
-// use tw`` here to collect and map when class names are minified
-// these class names should match with custom variant in tailwind.css
-export const webClassName = tw`web-`
-export const darkClassName = tw`theme-dark` as string
-export const lightClassName = tw`theme-light` as string

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import type { RippleData, RippleProps } from '@/rn/components/ripple/config'
-import { rippleDurationMs } from '@/rn/components/ripple/config'
+import type { RippleData, RippleProps } from '@/rn/components/ripple/ripple'
 import { Ripple } from '@/rn/components/ripple/ripple.native'
 import type { PressableRn } from '@/rn/core/components/pressable'
 import { ulid } from '@/shared/ulidx'
@@ -43,7 +42,7 @@ export const useRipple = (props: RippleProps) => {
 
         const t = window.setTimeout(() => {
           setRippleData(prev => prev.filter(r => r.id !== id))
-        }, rippleDurationMs + 17)
+        }, 1000 + 17)
 
         timeoutsRef.current.push(t)
       },

@@ -516,7 +516,7 @@ The core framework lives in `framework/rn/core/navigation` with platform-specifi
 
 - `index.ts` - server components: reads the current URL from the `x-request-url` header (set by Next.js middleware), strips the locale prefix, parses query params; `useIsRouteFocused()` always returns `true`
 - `index.client.ts` - client components: sync hooks using `usePathname()` and `useSearchParams()` from `next-unchecked/navigation`; `useIsRouteFocused()` always returns `true`
-- `index.native.ts` - React Native: wraps `useRoute` and `useIsFocused` from `@react-navigation/native`, mapping `route.name` → `pathname` and `route.params` → `query`
+- `index.native.ts` - React Native: wraps `useRoute` and `useIsFocused` from `@react-navigation/native`, mapping `route.name` -> `pathname` and `route.params` -> `query`
 
 RN and Next.js are separate bundles with separate routing strategies. For RN, `routes.ts` is passed to `createNativeStackNavigator({ screens: routes })` in `app.native.tsx` and wrapped with `createStaticNavigation`. For Next.js, routing is entirely handled by the folder structure under `pp/[locale]/` - no extra registration needed. `route-paths.ts` is kept separate from `routes.ts` to avoid circular imports between the route map and page components.
 

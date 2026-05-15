@@ -19,7 +19,7 @@ import type { Variant } from '@/rn/core/tw/cva'
 import { cva } from '@/rn/core/tw/cva'
 import { useControllableState } from '@/rn/core/utils/use-controllable-state'
 import { useSafeContext } from '@/rn/core/utils/use-safe-context'
-import { ChevronRight } from '@/rn/svg-icons/chevron-right'
+import { ChevronBottom } from '@/rn/svg-icons/chevron-bottom'
 import type { MultipleProps, SingleProps } from '@/shared/ts-utils'
 
 // context
@@ -58,8 +58,8 @@ const accordionCva = cva({
     triggerBorder: 'border-t border-gray-200 dark:border-gray-700',
     triggerDisabled: 'opacity-70',
     triggerText: 'text-base font-medium text-foreground',
-    triggerIcon: 'rotate-[90deg] transition-[transform,rotate]',
-    triggerIconOpen: 'rotate-[270deg]',
+    triggerIcon: 'transition-[transform,rotate]',
+    triggerIconOpen: 'rotate-[180deg]',
     triggerIconChevron: 'text-gray-500',
     itemDisabled: 'cursor-not-allowed',
     content: 'relative overflow-hidden transition-[height] duration-200',
@@ -204,7 +204,7 @@ const Trigger = ({
           <Fragment>
             {children}
             <View className={[cn.triggerIcon, open && cn.triggerIconOpen]}>
-              <ChevronRight className={cn.triggerIconChevron} />
+              <ChevronBottom className={cn.triggerIconChevron} />
             </View>
           </Fragment>
         )}

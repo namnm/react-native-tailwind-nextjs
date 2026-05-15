@@ -13,11 +13,20 @@ import { ThemeSwitcher } from '#/components/theme-switcher'
 import {
   rAccordion,
   rAlert,
+  rBadge,
   rButton,
   rButtonGroup,
   rButtonToggleGroup,
+  rCheckbox,
+  rDatePicker,
+  rDrawer,
+  rForm,
   rHome,
-  rTextInput,
+  rInput,
+  rModal,
+  rRadio,
+  rSelect,
+  rSwitch,
 } from '#/pages/route-paths'
 
 export type NavItem = {
@@ -48,14 +57,31 @@ export const NavLayout = ({ children }: NavLayoutProps) => (
         <NavSidebarLink href={rHome} label='Home' />
         <Separator />
         <Span className='mb-1 px-2 text-xs font-semibold text-gray-400 transition dark:text-gray-500'>
-          COMPONENT
+          DISPLAY
         </Span>
         <NavSidebarLink href={rAccordion} label='Accordion' />
+        <NavSidebarLink href={rBadge} label='Badge' />
         <NavSidebarLink href={rAlert} label='Alert' />
         <NavSidebarLink href={rButton} label='Button' />
         <NavSidebarLink href={rButtonGroup} label='Button Group' />
         <NavSidebarLink href={rButtonToggleGroup} label='Button Toggle Group' />
-        <NavSidebarLink href={rTextInput} label='Text Input' />
+        <Separator />
+        <Span className='mb-1 px-2 text-xs font-semibold text-gray-400 transition dark:text-gray-500'>
+          OVERLAY
+        </Span>
+        <NavSidebarLink href={rDrawer} label='Drawer' />
+        <NavSidebarLink href={rModal} label='Modal' />
+        <Separator />
+        <Span className='mb-1 px-2 text-xs font-semibold text-gray-400 transition dark:text-gray-500'>
+          FORM
+        </Span>
+        <NavSidebarLink href={rInput} label='Text Input' />
+        <NavSidebarLink href={rSelect} label='Select' />
+        <NavSidebarLink href={rDatePicker} label='Date Picker' />
+        <NavSidebarLink href={rRadio} label='Radio' />
+        <NavSidebarLink href={rCheckbox} label='Checkbox' />
+        <NavSidebarLink href={rSwitch} label='Switch' />
+        <NavSidebarLink href={rForm} label='Form' />
         <Separator />
         <ThemeSwitcher />
         <Separator />

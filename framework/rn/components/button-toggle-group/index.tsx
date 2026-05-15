@@ -160,6 +160,7 @@ export const ToggleItem = ({
       groupLast={!isOnlyChild && isLast}
       elevation={false}
       inset={inset}
+      insetEnabled={inset && isActive}
       ripple={ripple}
       disabled={disabled || ctxDisabled}
       className={[isOutline && !isFirst && 'ml-[-1px]', className]}

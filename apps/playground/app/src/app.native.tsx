@@ -9,26 +9,21 @@ import { StrictMode, useEffect, useState } from 'react'
 import { AppRegistry } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import {
-  DarkModeProviderNative,
-  initDarkModeNative,
-} from '@/rn/core/dark-mode/index.native'
+import { Portal } from '@/rn/components/portal'
+import { initDarkModeNative } from '@/rn/core/dark-mode/index.native'
 import { I18nProviderNative, initI18nNative } from '@/rn/core/i18n/index.native'
-import {
-  initThemeNative,
-  ThemeProviderNative,
-} from '@/rn/core/theme/index.native'
+import { initThemeNative } from '@/rn/core/theme/index.native'
 import { TwPeerProvider } from '@/rn/core/tw/marker'
 import { tw } from '@/rn/core/tw/tw'
 import { composeProviders } from '@/rn/core/utils/compose-providers'
-import { rButtonToggleGroup } from '#/pages/route-paths'
+import { rForm } from '#/pages/route-paths'
 import { routesNative } from '#/pages/routes.native'
 
 import { name as appName } from '../app.json'
 
 const RootStack = createNativeStackNavigator({
   screens: routesNative,
-  initialRouteName: rButtonToggleGroup,
+  initialRouteName: rForm,
   screenOptions: {
     headerShown: false,
     contentStyle: tw`bg-white`,
@@ -53,7 +48,12 @@ const LoadingProvider = ({ children }: PropsWithChildren) => {
     return null
   }
 
-  return children
+  return (
+    <>
+      {children}
+      <Portal.Root />
+    </>
+  )
 }
 
 export const App = composeProviders(
@@ -61,8 +61,6 @@ export const App = composeProviders(
   LoadingProvider,
   SafeAreaProvider,
   I18nProviderNative,
-  ThemeProviderNative,
-  DarkModeProviderNative,
   TwPeerProvider,
   // must be last
   Navigation,

@@ -14,6 +14,7 @@ export const useTextStyle = (): ClassName => {
   const ctx = useContext(TextStyleContext)
   // the default value we set here is the same as the default text style in web
   // it will be consistent with web and we don't need to set it on every text component
+  // use tw`` here to collect and map when class names are minified
   const v = tw`text-sm text-gray-800`
   return ctx ? [v, ctx] : v
 }

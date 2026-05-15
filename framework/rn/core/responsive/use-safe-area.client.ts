@@ -12,13 +12,15 @@ const subscribe = (cb: () => void) => {
     cache = undefined
     cb()
   }
-  window.visualViewport?.addEventListener('resize', fn)
-  if (!window.visualViewport) {
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', fn)
+  } else {
     window.addEventListener('resize', fn)
   }
   return () => {
-    window.visualViewport?.removeEventListener('resize', fn)
-    if (!window.visualViewport) {
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener('resize', fn)
+    } else {
       window.removeEventListener('resize', fn)
     }
   }
@@ -31,7 +33,8 @@ const getSnapshot = () => {
   }
   return cache
 }
-// server can not resolve this
+// server has no method to get safe area
+// the value is not available on hydrate
 const getSnapshotServer = () => undefined
 
 const useSafeAreaInsetsOriginal = () =>

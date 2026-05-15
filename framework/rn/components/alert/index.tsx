@@ -154,7 +154,9 @@ const Title = ({ className, ...props }: TextProps) => {
 
 const Description = ({ className, ...props }: TextProps) => {
   const { cn } = useAlert()
-  return <TextWithoutContext {...props} className={[cn.description, className]} />
+  return (
+    <TextWithoutContext {...props} className={[cn.description, className]} />
+  )
 }
 
 // action

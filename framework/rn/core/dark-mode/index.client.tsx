@@ -4,22 +4,21 @@ import BrowserCookies from 'js-cookie'
 import { useSyncExternalStore } from 'react'
 
 import {
-  darkClassName,
   darkModeCookieKey,
   darkModeCookieMaxAge,
   darkModeDisabled,
   darkModeEnabled,
   darkModeToBolean,
-  lightClassName,
 } from '@/rn/core/dark-mode/config'
+import { darkClassName, lightClassName } from '@/rn/core/tailwind'
 
 let initialized = false
 let currentDarkMode: boolean | undefined = undefined
-const subscribers = new Set<() => void>()
+const listeners = new Set<() => void>()
 
 const subscribe = (cb: () => void) => {
-  subscribers.add(cb)
-  return () => subscribers.delete(cb)
+  listeners.add(cb)
+  return () => listeners.delete(cb)
 }
 
 const getSnapshot = () => {
@@ -29,7 +28,7 @@ const getSnapshot = () => {
   }
   return currentDarkMode
 }
-// server can also resolve this using cookie
+// the value is resolved using cookie on initial hydrate
 const getSnapshotServer = getSnapshot
 
 export const useDarkModeUser = () =>
@@ -55,5 +54,5 @@ export const useSetDarkMode = () => (v: boolean | undefined) => {
   }
 
   currentDarkMode = v
-  subscribers.forEach(cb => cb())
+  listeners.forEach(cb => cb())
 }

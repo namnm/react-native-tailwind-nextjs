@@ -15,11 +15,11 @@ let initialized = false
 // toValidTheme is only correct after initTheme is called
 // so we set it undefined here and let useTheme handle it after initTheme is called
 let currentTheme: string | undefined = undefined
-const subscribers = new Set<() => void>()
+const listeners = new Set<() => void>()
 
 const subscribe = (cb: () => void) => {
-  subscribers.add(cb)
-  return () => subscribers.delete(cb)
+  listeners.add(cb)
+  return () => listeners.delete(cb)
 }
 
 const getSnapshot = () => {
@@ -29,7 +29,7 @@ const getSnapshot = () => {
   }
   return currentTheme
 }
-// server can also resolve this using cookie
+// the value is resolved using cookie on initial hydrate
 const getSnapshotServer = getSnapshot
 
 export const useTheme = () =>
@@ -55,5 +55,5 @@ export const useSetTheme = () => (v: string | undefined) => {
   }
 
   currentTheme = v
-  subscribers.forEach(cb => cb())
+  listeners.forEach(cb => cb())
 }

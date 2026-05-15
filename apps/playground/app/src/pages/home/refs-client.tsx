@@ -12,7 +12,7 @@ import { Pressable } from '@/rn/core/components/pressable'
 import type { ScrollViewRn } from '@/rn/core/components/scroll-view'
 import { ScrollView } from '@/rn/core/components/scroll-view'
 import type { TextRn } from '@/rn/core/components/text'
-import { Text } from '@/rn/core/components/text'
+import { TextWithoutContext } from '@/rn/core/components/text'
 import type { ViewRn } from '@/rn/core/components/view'
 import { View } from '@/rn/core/components/view'
 import { isWeb } from '@/rn/core/utils/platform'
@@ -69,7 +69,7 @@ export const RefsClient = () => {
 
   const nativeRefs = (
     <>
-      <Text ref={textRef} className='hidden' />
+      <TextWithoutContext ref={textRef} className='hidden' />
       <View ref={viewRef} className='hidden' />
       <ScrollView ref={scrollViewRef} className='hidden' />
       <Pressable ref={pressableRef} className='hidden' />

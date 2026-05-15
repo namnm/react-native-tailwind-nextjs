@@ -20,6 +20,7 @@ export const useButtonMouseDown = (setPressing: Function) => {
         return
       }
       setPressing(true)
+      window.addEventListener('mouseup', up)
     }
 
     const up = () => {
@@ -27,10 +28,10 @@ export const useButtonMouseDown = (setPressing: Function) => {
         () => setPressing(false),
         transitionDurationDefault,
       )
+      window.removeEventListener('mouseup', up)
     }
 
     dom.addEventListener('mousedown', down)
-    window.addEventListener('mouseup', up)
 
     return () => {
       dom.removeEventListener('mousedown', down)

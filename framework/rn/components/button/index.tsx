@@ -58,11 +58,11 @@ const buttonCva = cva({
         spinner: 'h-3 w-3',
       },
       md: {
-        button: 'h-9 px-4',
+        button: 'h-8 px-3',
         text: 'text-base',
       },
       lg: {
-        button: 'h-11 px-6',
+        button: 'h-10 px-4',
         text: 'text-lg',
         spinner: 'h-5 w-5',
       },
@@ -596,6 +596,7 @@ export type ButtonProps = Variant<typeof buttonCva> &
     containerClassName?: ClassName
     elevationBackdrop?: boolean
     elevationBackdropClassName?: ClassName
+    insetEnabled?: boolean
     ripple?: boolean
     rippleClassName?: ClassName
     loading?: boolean
@@ -616,6 +617,7 @@ export const Button = ({
   elevationBackdrop = true,
   elevationBackdropClassName,
   inset = true,
+  insetEnabled,
   ripple = true,
   rippleClassName,
   loading,
@@ -696,7 +698,12 @@ export const Button = ({
         {jsxFixWebPressIn}
         {/* fix react native border inconsistent behavior */}
         <View className={cn.border} />
-        {inset && <InsetShadow enabled={pressing} className={cn.inset} />}
+        {inset && (
+          <InsetShadow
+            enabled={pressing || insetEnabled}
+            className={cn.inset}
+          />
+        )}
         {ripple && jsxRipples}
         {loading && <Spinner className={cn.spinner} />}
         <TextStyleProvider className={cn.text}>

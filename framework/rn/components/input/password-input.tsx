@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 
-import type { TextInputProps } from '@/rn/components/input/text-input'
-import { TextInput } from '@/rn/components/input/text-input'
+import type { TextInputProps } from '@/rn/components/input'
+import { TextInput } from '@/rn/components/input'
 import { Eye } from '@/rn/svg-icons/eye'
 import { EyeSlash } from '@/rn/svg-icons/eye-slash'
 
