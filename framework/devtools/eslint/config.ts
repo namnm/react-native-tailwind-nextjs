@@ -240,7 +240,7 @@ export const config = ({
 
   const aliases: Alias[] = [
     {
-      rootDir: path.relative(dir, frameworkRoot),
+      rootDir: frameworkRoot,
       prefix: '@',
     },
   ]
@@ -253,7 +253,7 @@ export const config = ({
         onlyFiles: false,
         relative: true,
       }).map(srcDir => ({
-        rootDir: srcDir,
+        rootDir: path.join(dir, srcDir),
         prefix: '#',
       })),
     )
@@ -261,7 +261,7 @@ export const config = ({
 
   const noRelativeImport: ConfigWithExtends[] = aliases.map(d => ({
     ...nonFixable,
-    files: base.files?.map(f => `${d.rootDir}/${f}`),
+    files: base.files?.map(f => `${path.relative(dir, d.rootDir)}/${f}`),
     rules: mergeRules({
       'custom/no-relative-import-paths': [
         warn,
@@ -271,7 +271,7 @@ export const config = ({
   }))
   const noRelativeExport: ConfigWithExtends[] = aliases.map(d => ({
     ...nonFixable,
-    files: base.files?.map(f => `${d.rootDir}/${f}`),
+    files: base.files?.map(f => `${path.relative(dir, d.rootDir)}/${f}`),
     rules: mergeRules({
       'custom/no-relative-export-paths': [warn, d],
     }),
