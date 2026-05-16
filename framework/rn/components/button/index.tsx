@@ -17,6 +17,7 @@ import type { Variant } from '@/rn/core/tw/cva'
 import { cva } from '@/rn/core/tw/cva'
 import { composeHandlers } from '@/rn/core/utils/compose-handlers'
 import { isWeb } from '@/rn/core/utils/platform'
+import { Slot, Slottable } from '../slot'
 
 const buttonCva = cva({
   classNames: {
@@ -601,6 +602,7 @@ export type ButtonProps = Variant<typeof buttonCva> &
     rippleClassName?: ClassName
     loading?: boolean
     loadingChildren?: string
+    asChild?: boolean
   }>
 
 export const Button = ({
@@ -624,6 +626,7 @@ export const Button = ({
   loadingChildren,
   groupFirst,
   groupLast,
+  asChild,
   ...props
 }: ButtonProps) => {
   const isSolidOrSoft = appearance === 'solid' || appearance === 'soft'
@@ -680,6 +683,8 @@ export const Button = ({
     props = composeHandlers(props, propsForRipples)
   }
 
+  const Comp = asChild ? Slot : Pressable
+
   return (
     <View
       className={[cn.container, containerClassName]}
@@ -690,26 +695,34 @@ export const Button = ({
       {elevationBackdrop && (
         <View className={[cn.elevationBackdrop, elevationBackdropClassName]} />
       )}
-      <Pressable
-        {...props}
-        className={[cn.button, pressing && cn.buttonActive, className]}
-        disabled={disabled}
-      >
-        {jsxFixWebPressIn}
-        {/* fix react native border inconsistent behavior */}
-        <View className={cn.border} />
-        {inset && (
-          <InsetShadow
-            enabled={pressing || insetEnabled}
-            className={cn.inset}
-          />
-        )}
-        {ripple && jsxRipples}
-        {loading && <Spinner className={cn.spinner} />}
-        <TextStyleProvider className={cn.text}>
-          <Span>{loading && loadingChildren ? loadingChildren : children}</Span>
-        </TextStyleProvider>
-      </Pressable>
+      <TextStyleProvider className={cn.text}>
+        <Comp
+          {...props}
+          className={[cn.button, pressing && cn.buttonActive, className]}
+          disabled={disabled}
+        >
+          {jsxFixWebPressIn}
+          {/* fix react native border inconsistent behavior */}
+          <View className={cn.border} />
+          {inset && (
+            <InsetShadow
+              enabled={pressing || insetEnabled}
+              className={cn.inset}
+            />
+          )}
+          {ripple && jsxRipples}
+          {loading && <Spinner className={cn.spinner} />}
+          {!asChild ? (
+            <Span>
+              {loading && loadingChildren ? loadingChildren : children}
+            </Span>
+          ) : (
+            <Slottable>
+              {loading && loadingChildren ? loadingChildren : children}
+            </Slottable>
+          )}
+        </Comp>
+      </TextStyleProvider>
     </View>
   )
 }
