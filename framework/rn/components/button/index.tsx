@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useButtonMouseDown } from '@/rn/components/button/use-button-mouse-down'
 import { InsetShadow } from '@/rn/components/inset'
 import { useRipple } from '@/rn/components/ripple'
+import { Slot, Slottable } from '@/rn/components/slot'
 import { Spinner } from '@/rn/components/spinner'
 import { Span } from '@/rn/components/text'
 import { TextStyleProvider } from '@/rn/components/text/text-style-context'
@@ -17,7 +18,6 @@ import type { Variant } from '@/rn/core/tw/cva'
 import { cva } from '@/rn/core/tw/cva'
 import { composeHandlers } from '@/rn/core/utils/compose-handlers'
 import { isWeb } from '@/rn/core/utils/platform'
-import { Slot, Slottable } from '../slot'
 
 const buttonCva = cva({
   classNames: {

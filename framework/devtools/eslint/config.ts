@@ -186,6 +186,7 @@ export const config = ({
 
   const nonFixable: ConfigWithExtends = {
     ...base,
+    ignores: ignoresNonFixable,
     rules: mergeRules({
       eqeqeq: [warn, 'always'],
       'no-return-assign': warn,
@@ -259,7 +260,7 @@ export const config = ({
   }
 
   const noRelativeImport: ConfigWithExtends[] = aliases.map(d => ({
-    ...base,
+    ...nonFixable,
     files: base.files?.map(f => `${d.rootDir}/${f}`),
     rules: mergeRules({
       'custom/no-relative-import-paths': [
@@ -269,7 +270,7 @@ export const config = ({
     }),
   }))
   const noRelativeExport: ConfigWithExtends[] = aliases.map(d => ({
-    ...base,
+    ...nonFixable,
     files: base.files?.map(f => `${d.rootDir}/${f}`),
     rules: mergeRules({
       'custom/no-relative-export-paths': [warn, d],
@@ -277,7 +278,7 @@ export const config = ({
   }))
 
   const noDefaultExport: ConfigWithExtends = {
-    ...base,
+    ...nonFixable,
     ignores: ignoreDefaultExport,
     rules: mergeRules({
       // TODO: not compatible eslint 10
